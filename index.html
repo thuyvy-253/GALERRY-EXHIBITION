@@ -2,39 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY 20.08 | THE VOYAGE EXHIBITION</title>
-    <!-- Thư viện A-Frame & Extras -->
+    <title>CAPTAIN BOY 20.08 | EXHIBITION </title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
     <style>
-      /* GIAO DIỆN NÚT ĐIỀU KHIỂN */
+      /* GIAO DIỆN NÚT BẤM CỐ ĐỊNH */
       #ui-controls {
-        position: fixed; bottom: 20px; left: 20px; z-index: 1000;
-        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        position: fixed; bottom: 30px; left: 30px; z-index: 9999;
+        display: flex; flex-direction: column; align-items: center; gap: 10px;
       }
-      .nav-row { display: flex; gap: 8px; }
+      .nav-row { display: flex; gap: 10px; }
       .btn {
-        width: 60px; height: 60px; background: rgba(0, 0, 0, 0.6);
-        border: 2px solid gold; border-radius: 12px; color: gold;
-        font-family: 'Segoe UI', sans-serif; font-weight: bold;
+        width: 70px; height: 70px; background: gold; border: 3px solid #000;
+        border-radius: 15px; color: black; font-size: 24px; font-weight: bold;
         display: flex; justify-content: center; align-items: center;
-        user-select: none; cursor: pointer; transition: 0.2s;
+        user-select: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       }
-      .btn:active { background: gold; color: black; scale: 0.9; }
+      .btn:active { background: white; }
 
-      /* BẢNG THÔNG BÁO */
-      #overlay {
-        position: fixed; top: 20px; right: 20px; z-index: 1000;
-        color: gold; background: rgba(0,0,0,0.7); padding: 15px;
-        border-radius: 8px; font-family: sans-serif; border: 1px solid gold;
-        pointer-events: none;
+      #hint {
+        position: fixed; top: 20px; left: 20px; z-index: 9999;
+        color: gold; background: rgba(0,0,0,0.8); padding: 10px;
+        font-family: sans-serif; border: 1px solid gold; pointer-events: none;
       }
     </style>
   </head>
   <body>
 
-    <!-- GIAO DIỆN ĐIỀU KHIỂN -->
+    <!-- NÚT ĐIỀU KHIỂN -->
     <div id="ui-controls">
       <div class="btn" id="btn-up">▲</div>
       <div class="nav-row">
@@ -44,123 +40,89 @@
       </div>
     </div>
 
-    <div id="overlay">
-      <b>CAPTAIN BOY BIRTHDAY 20.08</b><br>
-      - Chuột/Chạm: Xoay nhìn<br>
-      - Nút/WASD: Di chuyển
+    <div id="hint">
+      <b>TRIỂN LÃM FULL 4 GIAN</b><br>
+      - Nhấn giữ nút Vàng để đi bộ<br>
+      - Vuốt màn hình để xoay hướng
     </div>
 
-    <a-scene shadow="type: pcfsoft" renderer="colorManagement: true; antialias: true;">
+    <a-scene shadow="type: pcfsoft" renderer="colorManagement: true;">
       
-      <!-- QUẢN LÝ TÀI NGUYÊN -->
       <a-assets>
-        <!-- THAY LINK ẢNH/VIDEO CỦA BẠN VÀO ĐÂY -->
+        <!-- Thay link ảnh của bạn vào đây -->
         <video id="vcr_video" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <img id="img_hall" src="https://via.placeholder.com/600x800?text=Memory+Photo">
-        <img id="img_music" src="https://via.placeholder.com/500x500?text=Song+Cover">
-        <img id="img_milestone" src="https://via.placeholder.com/800x1000?text=Competition">
-        <img id="img_main" src="https://via.placeholder.com/1000x1500?text=CAPTAIN+BOY+20.08">
+        <img id="img_art" src="https://via.placeholder.com/600x800?text=Captain+Art">
       </a-assets>
 
-      <!-- MÔI TRƯỜNG TỔNG THỂ -->
-      <a-sky color="#020205"></a-sky>
-      <a-light type="ambient" color="#444"></a-light>
-      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#0a0a0a" roughness="0.6"></a-plane>
+      <!-- 1. HỆ THỐNG ÁNH SÁNG (BẬT ĐÈN TOÀN KHU) -->
+      <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
+      <a-light type="hemisphere" color="#fff" groundColor="#444" intensity="0.5"></a-light>
+
+      <!-- SÀN NHÀ TỔNG THỂ -->
+      <a-sky color="#111"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="150" height="150" color="#1a1a1a" roughness="0.5"></a-plane>
 
       <!-- ======================================================== -->
-      <!-- GIAN 1: HÀNH LANG KÝ ỨC (Memory Hallway) -->
+      <!-- GIAN 1: HÀNH LANG LỐI VÀO (MEMORY LANE) -->
+      <!-- Bắt đầu từ Z=25 đến Z=5 -->
       <a-entity id="zone1_hallway" position="0 0 15">
-        <a-text value="THE FIRST CHAPTER" position="-2 4 4" color="gold" width="8" font="mozillavr"></a-text>
+        <a-text value="1. MEMORY HALLWAY" position="-2 4 8" color="gold" width="10"></a-text>
+        <a-box position="-4.5 2.5 0" width="0.3" height="5" depth="18" color="#333"></a-box>
+        <a-box position="4.5 2.5 0" width="0.3" height="5" depth="18" color="#333"></a-box>
         
-        <!-- Kiến trúc tường -->
-        <a-box position="-4 2.5 0" width="0.2" height="5" depth="15" color="#111"></a-box>
-        <a-box position="4 2.5 0" width="0.2" height="5" depth="15" color="#111"></a-box>
-
-        <!-- Trái: Video VCR -->
-        <a-video src="#vcr_video" width="3.5" height="2" position="-3.8 2.5 3" rotation="0 90 0"></a-video>
-        <a-video src="#vcr_video" width="3.5" height="2" position="-3.8 2.5 -3" rotation="0 90 0"></a-video>
-
-        <!-- Phải: Ảnh Gallery -->
-        <a-image src="#img_hall" width="2" height="3" position="3.8 2.5 3" rotation="0 -90 0"></a-image>
-        <a-image src="#img_hall" width="2" height="3" position="3.8 2.5 -3" rotation="0 -90 0"></a-image>
-
-        <!-- Đèn dẫn lối -->
-        <a-light type="point" color="#4facfe" intensity="1" position="0 4 0"></a-light>
+        <!-- Tranh & Video dọc hành lang -->
+        <a-video src="#vcr_video" width="4" height="2.2" position="-4.3 2.5 4" rotation="0 90 0"></a-video>
+        <a-image src="#img_art" width="2.5" height="3.5" position="4.3 2.5 4" rotation="0 -90 0"></a-image>
+        <a-video src="#vcr_video" width="4" height="2.2" position="-4.3 2.5 -4" rotation="0 90 0"></a-video>
+        <a-image src="#img_art" width="2.5" height="3.5" position="4.3 2.5 -4" rotation="0 -90 0"></a-image>
       </a-entity>
 
-
-      <!-- ======================================================== -->
-      <!-- HỆ THỐNG BIỂN CHỈ DẪN (Wayfinding) -->
-      <a-entity id="navigation_hub" position="0 0 5">
+      <!-- BIỂN CHỈ DẪN TẠI NGÃ TƯ -->
+      <a-entity position="0 0 4">
         <a-cylinder position="0 1 0" radius="0.05" height="2" color="gold"></a-cylinder>
-        <a-plane position="-1 2 0" width="1.5" height="0.4" color="#222">
-          <a-text value="<-- MUSIC" align="center" width="3"></a-text>
-        </a-plane>
-        <a-plane position="1 1.6 0" width="1.5" height="0.4" color="#222">
-          <a-text value="MILESTONES -->" align="center" width="3"></a-text>
-        </a-plane>
-        <a-plane position="0 2.4 0" width="1.8" height="0.4" color="gold">
-          <a-text value="GRAND HALL ^" align="center" width="3" color="black"></a-text>
-        </a-plane>
+        <a-plane position="-1.2 2 0" width="1.8" height="0.5" color="#000"><a-text value="<-- MUSIC" align="center"></a-text></a-plane>
+        <a-plane position="1.2 1.5 0" width="1.8" height="0.5" color="#000"><a-text value="MILESTONES -->" align="center"></a-text></a-plane>
+        <a-plane position="0 2.5 0" width="2" height="0.5" color="gold"><a-text value="GRAND HALL ^" align="center" color="black"></a-text></a-plane>
       </a-entity>
 
-
       <!-- ======================================================== -->
-      <!-- GIAN 2: PHÒNG ÂM NHẠC (Music Room - Cánh Trái) -->
+      <!-- GIAN 2: PHÒNG ÂM NHẠC (MUSIC ROOM - BÊN TRÁI) -->
       <a-entity id="zone2_music" position="-15 0 0">
-        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#051020"></a-box>
-        <a-text value="THE MELODY OCEAN" position="0 4 -5.8" align="center" color="#4facfe" width="10"></a-text>
-        
-        <!-- Đĩa nhạc lơ lửng xoay tròn -->
-        <a-entity position="0 2.5 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 15000; easing: linear">
-            <a-cylinder radius="1.5" height="0.05" src="#img_music" position="4 0 0" rotation="90 0 0"></a-cylinder>
-            <a-cylinder radius="1.5" height="0.05" src="#img_music" position="-4 1 2" rotation="90 45 0"></a-cylinder>
-            <a-cylinder radius="1.5" height="0.05" src="#img_music" position="0 -1 -4" rotation="90 -30 0"></a-cylinder>
+        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#051a30"></a-box>
+        <a-text value="2. THE SOUNDWAVE" position="0 4 -5.8" align="center" color="#4facfe" width="10"></a-text>
+        <!-- Đĩa nhạc xoay -->
+        <a-entity position="0 2.5 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            <a-cylinder radius="1.5" height="0.05" src="#img_art" position="4 0 0" rotation="90 0 0"></a-cylinder>
+            <a-cylinder radius="1.5" height="0.05" src="#img_art" position="-4 1 0" rotation="90 45 0"></a-cylinder>
         </a-entity>
       </a-entity>
 
+      <!-- ======================================================== -->
+      <!-- GIAN 3: PHÒNG CỘT MỐC (MILESTONE - BÊN PHẢI) -->
+      <a-entity id="zone3_milestones" position="15 0 0">
+        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#222"></a-box>
+        <a-text value="3. CAREER MILESTONES" position="0 4 -5.8" align="center" color="gold" width="10"></a-text>
+        <a-image src="#img_art" width="5" height="3.5" position="0 2.5 -5.7"></a-image>
+      </a-entity>
 
       <!-- ======================================================== -->
-      <!-- GIAN 3: PHÒNG CỘT MỐC (Milestone Room - Cánh Phải) -->
-      <a-entity id="zone3_milestone" position="15 0 0">
-        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#151515"></a-box>
-        <a-text value="CHAMPION JOURNEY" position="0 4 -5.8" align="center" color="gold" width="10"></a-text>
+      <!-- GIAN 4: SẢNH SINH NHẬT (GRAND HALL - ĐI THẲNG) -->
+      <a-entity id="zone4_grandhall" position="0 0 -15">
+        <a-torus color="gold" arc="180" radius="5" radius-tubular="0.05" position="0 0 0"></a-torus>
+        <a-text value="HAPPY BIRTHDAY CAPTAIN BOY" position="0 6 -5" align="center" width="15" color="white"></a-text>
         
-        <!-- Gallery ảnh cuộc thi -->
-        <a-image src="#img_milestone" width="4" height="3" position="0 2.5 -5.7"></a-image>
-        <a-light type="spot" color="white" position="0 5 -2" rotation="-45 0 0" intensity="2"></a-light>
+        <!-- Standee Captain khổng lồ -->
+        <a-image src="#img_art" width="5" height="8" position="0 4 -4.8"></a-image>
         
-        <!-- Bục giải thưởng -->
-        <a-box position="-3 0.5 -4" width="1" height="1" depth="1" color="#222">
-          <a-sphere position="0 0.8 0" radius="0.3" color="gold" animation="property: position; to: 0 0.9 0; dir: alternate; loop: true; dur: 1000"></a-sphere>
+        <!-- Bàn quà / Bánh kem giả lập -->
+        <a-box position="0 0.5 -2" width="2" height="1" depth="1" color="#333">
+            <a-cylinder position="0 0.6 0" radius="0.4" height="0.5" color="pink"></a-cylinder>
         </a-box>
       </a-entity>
 
-
       <!-- ======================================================== -->
-      <!-- GIAN 4: SẢNH CHÍNH SINH NHẬT (Grand Celebration) -->
-      <a-entity id="zone4_birthday" position="0 0 -15">
-        <a-torus color="gold" arc="180" radius="5" radius-tubular="0.05" position="0 0 0"></a-torus>
-        
-        <!-- Standee Captain Boy khổng lồ -->
-        <a-image src="#img_main" width="5" height="8" position="0 4 -5" transparent="true"></a-image>
-        <a-text value="HAPPY BIRTHDAY CAPTAIN BOY\nAUGUST 20" align="center" position="0 9 -5" width="15" color="white"></a-text>
-        
-        <!-- Ánh sáng sân khấu -->
-        <a-light type="point" color="gold" intensity="2" position="0 5 -2"></a-light>
-        
-        <!-- Khu vực Fan Wish -->
-        <a-entity position="-7 2 -4" rotation="0 40 0">
-          <a-plane width="4" height="2.5" color="#fff" material="opacity: 0.1">
-            <a-text value="FAN'S MESSAGES\n---\nTuoi moi ruc ro nha anh!\nCaptain Boy Number 1!" align="center" width="4" color="gold"></a-text>
-          </a-plane>
-        </a-entity>
-      </a-entity>
-
-
-      <!-- ======================================================== -->
-      <!-- HỆ THỐNG CAMERA & DI CHUYỂN -->
-      <a-entity id="rig" position="0 0 22" movement-controls="speed: 0.25;">
+      <!-- HỆ THỐNG CAMERA -->
+      <a-entity id="rig" position="0 0 25" movement-controls="speed: 0.2;">
         <a-entity id="camera" camera look-controls position="0 1.6 0">
             <a-cursor color="gold" scale="0.5 0.5 0.5"></a-cursor>
         </a-entity>
@@ -168,18 +130,14 @@
 
     </a-scene>
 
-
-    <!-- SCRIPT ĐIỀU KHIỂN NÚT BẤM -->
     <script>
       const rig = document.querySelector('#rig');
       const camera = document.querySelector('#camera');
-      const speed = 0.18; // Tốc độ di chuyển khi nhấn nút
+      const speed = 0.2; 
       let activeMove = null;
 
       function move() {
         if (!activeMove) return;
-
-        // Tính toán hướng di chuyển dựa trên góc xoay camera
         let rotation = camera.getAttribute('rotation');
         let angle = rotation.y * (Math.PI / 180);
         let pos = rig.getAttribute('position');
@@ -200,17 +158,14 @@
           pos.x += Math.cos(angle) * speed;
           pos.z -= Math.sin(angle) * speed;
         }
-
         rig.setAttribute('position', pos);
         requestAnimationFrame(move);
       }
 
-      // Gán sự kiện cho các nút
       const bindBtn = (id, dir) => {
         const el = document.getElementById(id);
         const start = (e) => { e.preventDefault(); activeMove = dir; move(); };
         const stop = () => { activeMove = null; };
-        
         el.addEventListener('mousedown', start);
         el.addEventListener('touchstart', start);
         window.addEventListener('mouseup', stop);
@@ -222,11 +177,8 @@
       bindBtn('btn-left', 'left');
       bindBtn('btn-right', 'right');
 
-      // Tự động bật video khi người dùng click vào màn hình lần đầu
-      window.addEventListener('click', function() {
-          const v = document.querySelector('#vcr_video');
-          v.play();
-      }, {once: true});
+      // Tự chạy Video khi click
+      window.addEventListener('click', () => { document.querySelector('#vcr_video').play(); }, {once: true});
     </script>
   </body>
 </html>
