@@ -1,37 +1,97 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Artist Gallery 3D</title>
-    <!-- Thư viện mã nguồn mở từ GitHub của A-Frame -->
+    <meta charset="utf-8">
+    <title>CAPTAIN BOY Birthday Exhibition - 20.08</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- Thư viện hỗ trợ di chuyển mượt hơn -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <!-- 1. Bầu trời & Ánh sáng -->
-      <a-sky color="#111"></a-sky> 
-      <a-light type="ambient" intensity="0.5"></a-light>
-      <a-light type="point" intensity="1" position="2 4 4"></a-light>
+    <a-scene shadow="type: pcfsoft">
+      
+      <!-- 1. QUẢN LÝ TÀI NGUYÊN (Thay link ảnh của bạn vào đây) -->
+      <a-assets>
+        <img id="floorTex" src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/dirt/dirt.jpg">
+        <img id="wallTex" src="https://via.placeholder.com/1024/222222/ffffff?text=Wall+Texture">
+        <!-- Ảnh nghệ sĩ -->
+        <img id="cap-childhood" src="https://via.placeholder.com/400x600?text=Childhood">
+        <img id="cap-competition" src="https://via.placeholder.com/600x400?text=Competition+Moment">
+        <img id="cap-music" src="https://via.placeholder.com/500x500?text=Album+Cover">
+        <img id="cap-main" src="https://via.placeholder.com/512x1024?text=Captain+Boy+FullBody">
+      </a-assets>
 
-      <!-- 2. Sàn nhà (Backdrop dưới đất) -->
-      <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#222"></a-plane>
+      <!-- 2. BẦU TRỜI & ÁNH SÁNG -->
+      <a-sky color="#020205"></a-sky>
+      <a-light type="ambient" color="#445" intensity="0.6"></a-light>
+      <a-light type="directional" intensity="0.8" position="-1 5 2" castShadow="true"></a-light>
 
-      <!-- 3. Treo tranh lên tường -->
-      <!-- Thay link ảnh của bạn vào chỗ 'src' -->
-      <a-box position="0 2.5 -5" width="4" height="3" depth="0.1" color="#fff">
-        <a-image src="https://via.placeholder.com/400x300" width="3.8" height="2.8" position="0 0 0.06"></a-image>
-      </a-box>
+      <!-- 3. SÀN NHÀ TỔNG THỂ -->
+      <a-plane src="#floorTex" rotation="-90 0 0" width="50" height="50" repeat="20 20"></a-plane>
 
-      <!-- 4. Làm Standee (Ảnh nghệ sĩ đứng trên sàn) -->
-      <!-- Lưu ý: Dùng ảnh PNG xóa phông để đẹp nhất -->
-      <a-image src="https://via.placeholder.com/150x300" position="2 1.5 -3" width="1.5" height="3"></a-image>
-      <a-box position="2 0.05 -3" width="1.6" height="0.1" depth="0.5" color="#444"></a-box> <!-- Đế standee -->
+      <!-- ============================================ -->
+      <!-- ZONE 1: HÀNH TRÌNH CHẠM ĐẾN HIỆN TẠI (0m -> -10m) -->
+      <a-entity position="0 0 0">
+        <a-text value="PHASE 1: THE ANCHOR" position="-2 3.5 -4" color="#FFD700" width="10"></a-text>
+        <!-- Tranh treo tường trái -->
+        <a-box position="-4 2 -5" width="2.5" height="3.5" depth="0.1" color="#333">
+            <a-image src="#cap-childhood" width="2.3" height="3.3" position="0 0 0.06"></a-image>
+        </a-box>
+        <!-- Tranh treo tường phải -->
+        <a-box position="4 2 -5" width="2.5" height="3.5" depth="0.1" color="#333">
+            <a-image src="#cap-childhood" width="2.3" height="3.3" position="0 0 0.06"></a-image>
+        </a-box>
+      </a-entity>
 
-      <!-- 5. Backdrop phía sau -->
-      <a-curvedimage src="https://via.placeholder.com/500x200" height="4.0" radius="5.7" theta-length="72"
-                     rotation="0 144 0" position="0 2 0"></a-curvedimage>
+      <!-- ZONE 2: CÁC CUỘC THI (At -15m) -->
+      <a-entity position="0 0 -15">
+        <a-text value="PHASE 2: THE STORM" position="-2 4 0" color="#00FFFF" width="10"></a-text>
+        <!-- Banner lớn giữa phòng -->
+        <a-image src="#cap-competition" position="0 2.5 -2" width="6" height="4"></a-image>
+        <!-- Đèn hiệu ứng sân khấu -->
+        <a-light type="spot" color="blue" position="0 5 0" rotation="-90 0 0" intensity="2" angle="30"></a-light>
+      </a-entity>
 
-      <!-- 6. Người xem có thể đi bộ bằng phím mũi tên và chuột -->
-      <a-entity camera look-controls wasd-controls position="0 1.6 3"></a-entity>
+      <!-- ZONE 3: CÁC BẢN NHẠC (At -30m) -->
+      <a-entity position="0 0 -30">
+        <a-text value="PHASE 3: MELODIC OCEAN" position="-2 4 0" color="#FF69B4" width="10"></a-text>
+        <!-- Các đĩa nhạc bay lơ lửng -->
+        <a-cylinder position="-3 2 -1" radius="1" height="0.05" color="#111" animation="property: rotation; to: 0 360 0; loop: true; dur: 4000">
+            <a-image src="#cap-music" radius="1" position="0 0.03 0" rotation="-90 0 0" width="1.8" height="1.8"></a-image>
+        </a-cylinder>
+        
+        <a-cylinder position="3 2 -1" radius="1" height="0.05" color="#111" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000">
+            <a-image src="#cap-music" radius="1" position="0 0.03 0" rotation="-90 0 0" width="1.8" height="1.8"></a-image>
+        </a-cylinder>
+      </a-entity>
+
+      <!-- ZONE 4: HAPPY BIRTHDAY (At -45m) -->
+      <a-entity position="0 0 -45">
+        <a-text value="HAPPY BIRTHDAY CAPTAIN BOY 20.08" align="center" position="0 5 -5" color="#FFF" width="12"></a-text>
+        
+        <!-- Standee Captain Boy trung tâm -->
+        <a-image src="#cap-main" position="0 2 -3" width="2.5" height="5" transparent="true"></a-image>
+        
+        <!-- Bánh kem giả lập bằng khối -->
+        <a-cylinder position="0 0.5 -2" radius="0.5" height="0.8" color="#FFC0CB">
+            <a-box position="0 0.5 0" width="0.1" height="0.3" depth="0.1" color="yellow"></a-box>
+        </a-cylinder>
+
+        <!-- Lời chúc từ Fan (Dạng các tấm bảng nhỏ) -->
+        <a-plane position="-4 2 -4" width="2" height="1" color="#FFF">
+            <a-text value="Chuc anh tuoi moi ruc ro!" color="#000" align="center" width="4"></a-text>
+        </a-plane>
+      </a-entity>
+
+      <!-- ============================================ -->
+      <!-- 4. NGƯỜI XEM (CAMERA + DI CHUYỂN) -->
+      <a-entity id="rig" movement-controls="speed: 0.3">
+        <a-entity camera look-controls position="0 1.6 5">
+            <!-- Cursor để tương tác nếu cần -->
+            <a-cursor color="lavender"></a-cursor>
+        </a-entity>
+      </a-entity>
+
     </a-scene>
   </body>
 </html>
