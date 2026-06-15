@@ -2,33 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | THE LIGHT & SHADOW EXHIBITION</title>
+    <title>CAPTAIN BOY | 360 NAVIGATION EXHIBITION</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
     <style>
-      /* GIAO DIỆN ĐIỀU KHIỂN */
+      /* GIAO DIỆN ĐIỀU KHIỂN NÂNG CẤP */
       #nav-ui {
-        position: fixed; bottom: 30px; left: 30px; z-index: 10000;
-        background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-        padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
-        display: flex; flex-direction: column; gap: 10px;
+        position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+        z-index: 10000; display: flex; align-items: flex-end; gap: 20px;
+        background: rgba(0,0,0,0.3); padding: 20px; border-radius: 30px; backdrop-filter: blur(5px);
       }
+      .control-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
       .nav-row { display: flex; gap: 10px; }
+      
       .btn {
-        width: 50px; height: 50px; background: white; border: none;
-        border-radius: 12px; color: #333; font-size: 18px; font-weight: bold;
+        width: 60px; height: 60px; background: white; border: none;
+        border-radius: 15px; color: #333; font-size: 18px; font-weight: bold;
         display: flex; justify-content: center; align-items: center;
-        cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2); user-select: none;
       }
-      .btn:active { transform: scale(0.9); background: gold; }
+      .btn:active { background: gold; transform: scale(0.9); }
+      .rotate-btn { background: #333; color: gold; border-radius: 50%; } /* Nút xoay hình tròn */
 
       /* NÚT BẬT TẮT ĐÈN */
       #light-toggle {
-        position: fixed; top: 30px; right: 30px; z-index: 10000;
-        width: 120px; height: 50px; background: gold; color: black;
-        border: none; border-radius: 25px; font-weight: bold; cursor: pointer;
-        box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+        position: fixed; top: 20px; right: 20px; z-index: 10000;
+        width: 100px; height: 45px; background: gold; border: none;
+        border-radius: 20px; font-weight: bold; cursor: pointer;
       }
     </style>
   </head>
@@ -36,13 +37,23 @@
 
     <button id="light-toggle">TẮT ĐÈN</button>
 
+    <!-- BỘ ĐIỀU KHIỂN 6 NÚT -->
     <div id="nav-ui">
-      <div class="btn" id="up">▲</div>
-      <div class="nav-row">
-        <div class="btn" id="left">◀</div>
-        <div class="btn" id="down">▼</div>
-        <div class="btn" id="right">▶</div>
+      <!-- Nút xoay trái -->
+      <div class="btn rotate-btn" id="rot-left">↺</div>
+      
+      <!-- Cụm di chuyển -->
+      <div class="control-group">
+        <div class="btn" id="up">▲</div>
+        <div class="nav-row">
+          <div class="btn" id="left">◀</div>
+          <div class="btn" id="down">▼</div>
+          <div class="btn" id="right">▶</div>
+        </div>
       </div>
+
+      <!-- Nút xoay phải -->
+      <div class="btn rotate-btn" id="rot-right">↻</div>
     </div>
 
     <a-scene renderer="antialias: true; colorManagement: true;">
@@ -51,85 +62,56 @@
         <!-- ========================================== -->
         <!-- 1. CHỖ THÊM FILE (ẢNH, VIDEO) TẠI ĐÂY -->
         <!-- ========================================== -->
-        
-        <!-- Ảnh Standee chính (Nên dùng ảnh PNG xóa phông) -->
-        <img id="asset-standee" src="https://via.placeholder.com/800x1200?text=STAND+EE">
-        
-        <!-- Ảnh Gian Âm Nhạc (Trái) -->
-        <img id="asset-music" src="https://via.placeholder.com/600x600?text=MUSIC+PHOTO">
-        
-        <!-- Ảnh Gian Hành Trình (Phải) -->
-        <img id="asset-journey" src="https://via.placeholder.com/800x1000?text=JOURNEY+PHOTO">
-        
-        <!-- Video VCR (Trước mặt) -->
+        <img id="asset-standee" src="https://via.placeholder.com/800x1200?text=CAPTAIN+BOY">
+        <img id="asset-music" src="https://via.placeholder.com/600x600?text=MUSIC">
+        <img id="asset-journey" src="https://via.placeholder.com/800x1000?text=JOURNEY">
         <video id="asset-vcr" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        
-        <!-- ========================================== -->
       </a-assets>
 
       <!-- HỆ THỐNG ÁNH SÁNG -->
-      <!-- Đèn tổng (Sẽ bị tắt khi nhấn nút) -->
       <a-light id="main-light" type="ambient" color="#fff" intensity="1"></a-light>
       <a-light id="sky-light" type="hemisphere" color="#fff" groundColor="#444" intensity="0.5"></a-light>
 
-      <!-- Đèn Spotlight (Luôn bật để tranh luôn sáng) -->
-      <a-light type="spot" color="gold" position="0 5 -3" rotation="-90 0 0" intensity="2" angle="30"></a-light>
-      <a-light type="spot" color="white" position="-5 4 0" rotation="-45 90 0" intensity="1.5"></a-light>
-      <a-light type="spot" color="white" position="5 4 0" rotation="-45 -90 0" intensity="1.5"></a-light>
+      <!-- Spotlight luôn bật cho tranh -->
+      <a-light type="spot" color="gold" position="0 5 -3" rotation="-90 0 0" intensity="2"></a-light>
+      <a-light type="spot" color="white" position="-5 4 0" rotation="-45 90 0" intensity="1"></a-light>
+      <a-light type="spot" color="white" position="5 4 0" rotation="-45 -90 0" intensity="1"></a-light>
 
-      <!-- KIẾN TRÚC PHÒNG -->
+      <!-- KIẾN TRÚC -->
       <a-sky id="bg-sky" color="#ECECEC"></a-sky>
       <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="16" color="#f0f0f0" roughness="0.2" metalness="0.3"></a-plane>
       <a-plane position="0 5 0" rotation="90 0 0" width="16" height="16" color="#fff"></a-plane>
 
       <!-- ========================================== -->
-      <!-- 2. GIAN TRUNG TÂM (STANDEE NGHỆ SĨ) -->
+      <!-- 2. TRƯNG BÀY (STANDEE, TRANH, VIDEO) -->
       <!-- ========================================== -->
+      
+      <!-- Standee Giữa -->
       <a-entity position="0 0 -3">
-         <a-cylinder radius="1.2" height="0.1" color="#111"></a-cylinder> <!-- Bục đứng -->
+         <a-cylinder radius="1" height="0.1" color="#111"></a-cylinder>
          <a-image src="#asset-standee" width="2.5" height="4" position="0 2 0" transparent="true"></a-image>
-         <!-- Tấm kính phản chiếu cho Standee -->
-         <a-plane width="2.5" height="4" material="opacity: 0.1; transparent: true; color: #fff" position="0 2 0.01"></a-plane>
       </a-entity>
 
-      <!-- ========================================== -->
-      <!-- 3. GIAN TRÁI (ÂM NHẠC - MUSIC WING) -->
-      <!-- ========================================== -->
+      <!-- Gian Âm Nhạc (Trái) -->
       <a-entity position="-7 0 0" rotation="0 90 0">
-        <a-box position="0 2.5 -0.5" width="6" height="5" depth="0.1" color="#222"></a-box> <!-- Vách tường -->
-        <a-entity position="0 2.5 0">
-           <a-box width="3.5" height="3.5" depth="0.1" color="#000">
-              <a-image src="#asset-music" width="3.3" height="3.3" position="0 0 0.06"></a-image>
-           </a-box>
-           <a-text value="THE SOUNDS" position="0 -2.2 0" align="center" width="5" color="gold"></a-text>
-        </a-entity>
+        <a-box width="5" height="4.5" depth="0.1" color="#222" position="0 2.25 -0.1"></a-box>
+        <a-image src="#asset-music" width="3.5" height="3.5" position="0 2.25 0"></a-image>
       </a-entity>
 
-      <!-- ========================================== -->
-      <!-- 4. GIAN PHẢI (HÀNH TRÌNH - JOURNEY WING) -->
-      <!-- ========================================== -->
+      <!-- Gian Hành Trình (Phải) -->
       <a-entity position="7 0 0" rotation="0 -90 0">
-        <a-box position="0 2.5 -0.5" width="6" height="5" depth="0.1" color="#222"></a-box>
-        <a-entity position="0 2.5 0">
-           <a-box width="4.5" height="3" depth="0.1" color="#000">
-              <a-image src="#asset-journey" width="4.3" height="2.8" position="0 0 0.06"></a-image>
-           </a-box>
-           <a-text value="THE VOYAGE" position="0 -2.2 0" align="center" width="5" color="gold"></a-text>
-        </a-entity>
+        <a-box width="5" height="4.5" depth="0.1" color="#222" position="0 2.25 -0.1"></a-box>
+        <a-image src="#asset-journey" width="4" height="3" position="0 2.25 0"></a-image>
       </a-entity>
 
-      <!-- ========================================== -->
-      <!-- 5. GIAN TRƯỚC MẶT (VCR CINEMA) -->
-      <!-- ========================================== -->
-      <a-entity position="0 0 -7.5">
-        <a-box position="0 2.5 -0.1" width="10" height="5.5" color="#000"></a-box>
-        <a-video src="#asset-vcr" width="9" height="5" position="0 2.5 0.05"></a-video>
-        <!-- Đèn hắt dưới chân màn hình (Emissive - Tự phát sáng) -->
-        <a-box position="0 0.05 0.2" width="9" height="0.1" depth="0.4" color="gold" id="neon-strip" material="emissive: gold; emissiveIntensity: 0.5"></a-box>
+      <!-- Video VCR (Trước mặt) -->
+      <a-entity position="0 0 -7.8">
+        <a-video src="#asset-vcr" width="8" height="4.5" position="0 2.5 0"></a-video>
+        <a-box id="neon" position="0 0.1 0.1" width="8" height="0.1" depth="0.3" color="gold" material="emissive: gold; emissiveIntensity: 0.5"></a-box>
       </a-entity>
 
-      <!-- HỆ THỐNG DI CHUYỂN -->
-      <a-entity id="rig" position="0 0 6" movement-controls="speed: 0.15;">
+      <!-- NGƯỜI XEM (CAMERA RIG) -->
+      <a-entity id="rig" position="0 0 5" rotation="0 0 0">
         <a-entity id="camera" camera look-controls position="0 1.6 0">
             <a-cursor color="gold" scale="0.5 0.5 0.5"></a-cursor>
         </a-entity>
@@ -138,64 +120,66 @@
     </a-scene>
 
     <script>
-      // LOGIC BẬT TẮT ĐÈN
+      const rig = document.getElementById('rig');
+      const camera = document.getElementById('camera');
       const btnLight = document.getElementById('light-toggle');
-      const mainLight = document.getElementById('main-light');
-      const skyLight = document.getElementById('sky-light');
-      const sky = document.getElementById('bg-sky');
-      const neon = document.getElementById('neon-strip');
-      let isOn = true;
+      
+      let moveDir = null;
+      let rotateDir = null;
+      const moveSpeed = 0.12;
+      const rotateSpeed = 1.5; // Tốc độ xoay (độ/khung hình)
 
-      btnLight.addEventListener('click', () => {
-        if(isOn) {
-          // CHẾ ĐỘ TẮT ĐÈN
-          mainLight.setAttribute('intensity', '0.05');
-          skyLight.setAttribute('intensity', '0.05');
-          sky.setAttribute('color', '#000');
-          neon.setAttribute('material', 'emissiveIntensity', '2'); // Neon sáng mạnh hơn khi tắt đèn
-          btnLight.innerText = "BẬT ĐÈN";
-          btnLight.style.background = "#333";
-          btnLight.style.color = "gold";
-        } else {
-          // CHẾ ĐỘ BẬT ĐÈN
-          mainLight.setAttribute('intensity', '1');
-          skyLight.setAttribute('intensity', '0.5');
-          sky.setAttribute('color', '#ECECEC');
-          neon.setAttribute('material', 'emissiveIntensity', '0.5');
-          btnLight.innerText = "TẮT ĐÈN";
-          btnLight.style.background = "gold";
-          btnLight.style.color = "black";
+      function update() {
+        // 1. Xử lý Di chuyển
+        if (moveDir) {
+          let rotation = camera.getAttribute('rotation');
+          let rigRotation = rig.getAttribute('rotation');
+          // Tổng góc xoay = góc xoay của rig + góc xoay của camera bên trong
+          let totalAngle = (rotation.y + rigRotation.y) * (Math.PI / 180);
+          let pos = rig.getAttribute('position');
+
+          if (moveDir === 'up') { pos.x -= Math.sin(totalAngle) * moveSpeed; pos.z -= Math.cos(totalAngle) * moveSpeed; }
+          if (moveDir === 'down') { pos.x += Math.sin(totalAngle) * moveSpeed; pos.z += Math.cos(totalAngle) * moveSpeed; }
+          if (moveDir === 'left') { pos.x -= Math.cos(totalAngle) * moveSpeed; pos.z += Math.sin(totalAngle) * moveSpeed; }
+          if (moveDir === 'right') { pos.x += Math.cos(totalAngle) * moveSpeed; pos.z -= Math.sin(totalAngle) * moveSpeed; }
+          rig.setAttribute('position', pos);
         }
-        isOn = !isOn;
-      });
 
-      // LOGIC DI CHUYỂN
-      const rig = document.querySelector('#rig');
-      const camera = document.querySelector('#camera');
-      const speed = 0.15; 
-      let activeMove = null;
+        // 2. Xử lý Xoay người (Pivot)
+        if (rotateDir) {
+          let rot = rig.getAttribute('rotation');
+          if (rotateDir === 'left') rot.y += rotateSpeed;
+          if (rotateDir === 'right') rot.y -= rotateSpeed;
+          rig.setAttribute('rotation', rot);
+        }
 
-      function move() {
-        if (!activeMove) return;
-        let rotation = camera.getAttribute('rotation');
-        let angle = rotation.y * (Math.PI / 180);
-        let pos = rig.getAttribute('position');
-        if (activeMove === 'up') { pos.x -= Math.sin(angle) * speed; pos.z -= Math.cos(angle) * speed; }
-        if (activeMove === 'down') { pos.x += Math.sin(angle) * speed; pos.z += Math.cos(angle) * speed; }
-        if (activeMove === 'left') { pos.x -= Math.cos(angle) * speed; pos.z += Math.sin(angle) * speed; }
-        if (activeMove === 'right') { pos.x += Math.cos(angle) * speed; pos.z -= Math.sin(angle) * speed; }
-        rig.setAttribute('position', pos);
-        requestAnimationFrame(move);
+        requestAnimationFrame(update);
       }
+      update();
 
-      const bindBtn = (id, dir) => {
+      // Gán sự kiện cho các nút
+      const bind = (id, type, val) => {
         const el = document.getElementById(id);
-        const start = (e) => { e.preventDefault(); activeMove = dir; move(); };
-        const stop = () => { activeMove = null; };
+        const start = (e) => { e.preventDefault(); if(type==='move') moveDir=val; else rotateDir=val; };
+        const stop = () => { if(type==='move') moveDir=null; else rotateDir=null; };
         el.addEventListener('mousedown', start); el.addEventListener('touchstart', start);
         window.addEventListener('mouseup', stop); window.addEventListener('touchend', stop);
       };
-      bindBtn('up', 'up'); bindBtn('down', 'down'); bindBtn('left', 'left'); bindBtn('right', 'right');
+
+      bind('up','move','up'); bind('down','move','down');
+      bind('left','move','left'); bind('right','move','right');
+      bind('rot-left','rotate','left'); bind('rot-right','rotate','right');
+
+      // Bật tắt đèn
+      let isOn = true;
+      btnLight.addEventListener('click', () => {
+        isOn = !isOn;
+        document.getElementById('main-light').setAttribute('intensity', isOn ? 1 : 0.05);
+        document.getElementById('sky-light').setAttribute('intensity', isOn ? 0.5 : 0.05);
+        document.getElementById('bg-sky').setAttribute('color', isOn ? '#ECECEC' : '#000');
+        document.getElementById('neon').setAttribute('material', 'emissiveIntensity', isOn ? 0.5 : 2);
+        btnLight.innerText = isOn ? "TẮT ĐÈN" : "BẬT ĐÈN";
+      });
 
       window.addEventListener('click', () => { document.querySelector('#asset-vcr').play(); }, {once: true});
     </script>
