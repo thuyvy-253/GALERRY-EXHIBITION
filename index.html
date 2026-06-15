@@ -2,127 +2,134 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY 20.08 | EXHIBITION </title>
+    <title>CAPTAIN BOY | THE LIGHT & SHADOW EXHIBITION</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
     <style>
-      /* GIAO DIỆN NÚT BẤM CỐ ĐỊNH */
-      #ui-controls {
-        position: fixed; bottom: 30px; left: 30px; z-index: 9999;
-        display: flex; flex-direction: column; align-items: center; gap: 10px;
+      /* GIAO DIỆN ĐIỀU KHIỂN */
+      #nav-ui {
+        position: fixed; bottom: 30px; left: 30px; z-index: 10000;
+        background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+        padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+        display: flex; flex-direction: column; gap: 10px;
       }
       .nav-row { display: flex; gap: 10px; }
       .btn {
-        width: 70px; height: 70px; background: gold; border: 3px solid #000;
-        border-radius: 15px; color: black; font-size: 24px; font-weight: bold;
+        width: 50px; height: 50px; background: white; border: none;
+        border-radius: 12px; color: #333; font-size: 18px; font-weight: bold;
         display: flex; justify-content: center; align-items: center;
-        user-select: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       }
-      .btn:active { background: white; }
+      .btn:active { transform: scale(0.9); background: gold; }
 
-      #hint {
-        position: fixed; top: 20px; left: 20px; z-index: 9999;
-        color: gold; background: rgba(0,0,0,0.8); padding: 10px;
-        font-family: sans-serif; border: 1px solid gold; pointer-events: none;
+      /* NÚT BẬT TẮT ĐÈN */
+      #light-toggle {
+        position: fixed; top: 30px; right: 30px; z-index: 10000;
+        width: 120px; height: 50px; background: gold; color: black;
+        border: none; border-radius: 25px; font-weight: bold; cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255,215,0,0.4);
       }
     </style>
   </head>
   <body>
 
-    <!-- NÚT ĐIỀU KHIỂN -->
-    <div id="ui-controls">
-      <div class="btn" id="btn-up">▲</div>
+    <button id="light-toggle">TẮT ĐÈN</button>
+
+    <div id="nav-ui">
+      <div class="btn" id="up">▲</div>
       <div class="nav-row">
-        <div class="btn" id="btn-left">◀</div>
-        <div class="btn" id="btn-down">▼</div>
-        <div class="btn" id="btn-right">▶</div>
+        <div class="btn" id="left">◀</div>
+        <div class="btn" id="down">▼</div>
+        <div class="btn" id="right">▶</div>
       </div>
     </div>
 
-    <div id="hint">
-      <b>TRIỂN LÃM FULL 4 GIAN</b><br>
-      - Nhấn giữ nút Vàng để đi bộ<br>
-      - Vuốt màn hình để xoay hướng
-    </div>
-
-    <a-scene shadow="type: pcfsoft" renderer="colorManagement: true;">
+    <a-scene renderer="antialias: true; colorManagement: true;">
       
       <a-assets>
-        <!-- Thay link ảnh của bạn vào đây -->
-        <video id="vcr_video" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <img id="img_art" src="https://via.placeholder.com/600x800?text=Captain+Art">
+        <!-- ========================================== -->
+        <!-- 1. CHỖ THÊM FILE (ẢNH, VIDEO) TẠI ĐÂY -->
+        <!-- ========================================== -->
+        
+        <!-- Ảnh Standee chính (Nên dùng ảnh PNG xóa phông) -->
+        <img id="asset-standee" src="https://via.placeholder.com/800x1200?text=STAND+EE">
+        
+        <!-- Ảnh Gian Âm Nhạc (Trái) -->
+        <img id="asset-music" src="https://via.placeholder.com/600x600?text=MUSIC+PHOTO">
+        
+        <!-- Ảnh Gian Hành Trình (Phải) -->
+        <img id="asset-journey" src="https://via.placeholder.com/800x1000?text=JOURNEY+PHOTO">
+        
+        <!-- Video VCR (Trước mặt) -->
+        <video id="asset-vcr" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
+        
+        <!-- ========================================== -->
       </a-assets>
 
-      <!-- 1. HỆ THỐNG ÁNH SÁNG (BẬT ĐÈN TOÀN KHU) -->
-      <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
-      <a-light type="hemisphere" color="#fff" groundColor="#444" intensity="0.5"></a-light>
+      <!-- HỆ THỐNG ÁNH SÁNG -->
+      <!-- Đèn tổng (Sẽ bị tắt khi nhấn nút) -->
+      <a-light id="main-light" type="ambient" color="#fff" intensity="1"></a-light>
+      <a-light id="sky-light" type="hemisphere" color="#fff" groundColor="#444" intensity="0.5"></a-light>
 
-      <!-- SÀN NHÀ TỔNG THỂ -->
-      <a-sky color="#111"></a-sky>
-      <a-plane position="0 0 0" rotation="-90 0 0" width="150" height="150" color="#1a1a1a" roughness="0.5"></a-plane>
+      <!-- Đèn Spotlight (Luôn bật để tranh luôn sáng) -->
+      <a-light type="spot" color="gold" position="0 5 -3" rotation="-90 0 0" intensity="2" angle="30"></a-light>
+      <a-light type="spot" color="white" position="-5 4 0" rotation="-45 90 0" intensity="1.5"></a-light>
+      <a-light type="spot" color="white" position="5 4 0" rotation="-45 -90 0" intensity="1.5"></a-light>
 
-      <!-- ======================================================== -->
-      <!-- GIAN 1: HÀNH LANG LỐI VÀO (MEMORY LANE) -->
-      <!-- Bắt đầu từ Z=25 đến Z=5 -->
-      <a-entity id="zone1_hallway" position="0 0 15">
-        <a-text value="1. MEMORY HALLWAY" position="-2 4 8" color="gold" width="10"></a-text>
-        <a-box position="-4.5 2.5 0" width="0.3" height="5" depth="18" color="#333"></a-box>
-        <a-box position="4.5 2.5 0" width="0.3" height="5" depth="18" color="#333"></a-box>
-        
-        <!-- Tranh & Video dọc hành lang -->
-        <a-video src="#vcr_video" width="4" height="2.2" position="-4.3 2.5 4" rotation="0 90 0"></a-video>
-        <a-image src="#img_art" width="2.5" height="3.5" position="4.3 2.5 4" rotation="0 -90 0"></a-image>
-        <a-video src="#vcr_video" width="4" height="2.2" position="-4.3 2.5 -4" rotation="0 90 0"></a-video>
-        <a-image src="#img_art" width="2.5" height="3.5" position="4.3 2.5 -4" rotation="0 -90 0"></a-image>
+      <!-- KIẾN TRÚC PHÒNG -->
+      <a-sky id="bg-sky" color="#ECECEC"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="16" color="#f0f0f0" roughness="0.2" metalness="0.3"></a-plane>
+      <a-plane position="0 5 0" rotation="90 0 0" width="16" height="16" color="#fff"></a-plane>
+
+      <!-- ========================================== -->
+      <!-- 2. GIAN TRUNG TÂM (STANDEE NGHỆ SĨ) -->
+      <!-- ========================================== -->
+      <a-entity position="0 0 -3">
+         <a-cylinder radius="1.2" height="0.1" color="#111"></a-cylinder> <!-- Bục đứng -->
+         <a-image src="#asset-standee" width="2.5" height="4" position="0 2 0" transparent="true"></a-image>
+         <!-- Tấm kính phản chiếu cho Standee -->
+         <a-plane width="2.5" height="4" material="opacity: 0.1; transparent: true; color: #fff" position="0 2 0.01"></a-plane>
       </a-entity>
 
-      <!-- BIỂN CHỈ DẪN TẠI NGÃ TƯ -->
-      <a-entity position="0 0 4">
-        <a-cylinder position="0 1 0" radius="0.05" height="2" color="gold"></a-cylinder>
-        <a-plane position="-1.2 2 0" width="1.8" height="0.5" color="#000"><a-text value="<-- MUSIC" align="center"></a-text></a-plane>
-        <a-plane position="1.2 1.5 0" width="1.8" height="0.5" color="#000"><a-text value="MILESTONES -->" align="center"></a-text></a-plane>
-        <a-plane position="0 2.5 0" width="2" height="0.5" color="gold"><a-text value="GRAND HALL ^" align="center" color="black"></a-text></a-plane>
-      </a-entity>
-
-      <!-- ======================================================== -->
-      <!-- GIAN 2: PHÒNG ÂM NHẠC (MUSIC ROOM - BÊN TRÁI) -->
-      <a-entity id="zone2_music" position="-15 0 0">
-        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#051a30"></a-box>
-        <a-text value="2. THE SOUNDWAVE" position="0 4 -5.8" align="center" color="#4facfe" width="10"></a-text>
-        <!-- Đĩa nhạc xoay -->
-        <a-entity position="0 2.5 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
-            <a-cylinder radius="1.5" height="0.05" src="#img_art" position="4 0 0" rotation="90 0 0"></a-cylinder>
-            <a-cylinder radius="1.5" height="0.05" src="#img_art" position="-4 1 0" rotation="90 45 0"></a-cylinder>
+      <!-- ========================================== -->
+      <!-- 3. GIAN TRÁI (ÂM NHẠC - MUSIC WING) -->
+      <!-- ========================================== -->
+      <a-entity position="-7 0 0" rotation="0 90 0">
+        <a-box position="0 2.5 -0.5" width="6" height="5" depth="0.1" color="#222"></a-box> <!-- Vách tường -->
+        <a-entity position="0 2.5 0">
+           <a-box width="3.5" height="3.5" depth="0.1" color="#000">
+              <a-image src="#asset-music" width="3.3" height="3.3" position="0 0 0.06"></a-image>
+           </a-box>
+           <a-text value="THE SOUNDS" position="0 -2.2 0" align="center" width="5" color="gold"></a-text>
         </a-entity>
       </a-entity>
 
-      <!-- ======================================================== -->
-      <!-- GIAN 3: PHÒNG CỘT MỐC (MILESTONE - BÊN PHẢI) -->
-      <a-entity id="zone3_milestones" position="15 0 0">
-        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#222"></a-box>
-        <a-text value="3. CAREER MILESTONES" position="0 4 -5.8" align="center" color="gold" width="10"></a-text>
-        <a-image src="#img_art" width="5" height="3.5" position="0 2.5 -5.7"></a-image>
+      <!-- ========================================== -->
+      <!-- 4. GIAN PHẢI (HÀNH TRÌNH - JOURNEY WING) -->
+      <!-- ========================================== -->
+      <a-entity position="7 0 0" rotation="0 -90 0">
+        <a-box position="0 2.5 -0.5" width="6" height="5" depth="0.1" color="#222"></a-box>
+        <a-entity position="0 2.5 0">
+           <a-box width="4.5" height="3" depth="0.1" color="#000">
+              <a-image src="#asset-journey" width="4.3" height="2.8" position="0 0 0.06"></a-image>
+           </a-box>
+           <a-text value="THE VOYAGE" position="0 -2.2 0" align="center" width="5" color="gold"></a-text>
+        </a-entity>
       </a-entity>
 
-      <!-- ======================================================== -->
-      <!-- GIAN 4: SẢNH SINH NHẬT (GRAND HALL - ĐI THẲNG) -->
-      <a-entity id="zone4_grandhall" position="0 0 -15">
-        <a-torus color="gold" arc="180" radius="5" radius-tubular="0.05" position="0 0 0"></a-torus>
-        <a-text value="HAPPY BIRTHDAY CAPTAIN BOY" position="0 6 -5" align="center" width="15" color="white"></a-text>
-        
-        <!-- Standee Captain khổng lồ -->
-        <a-image src="#img_art" width="5" height="8" position="0 4 -4.8"></a-image>
-        
-        <!-- Bàn quà / Bánh kem giả lập -->
-        <a-box position="0 0.5 -2" width="2" height="1" depth="1" color="#333">
-            <a-cylinder position="0 0.6 0" radius="0.4" height="0.5" color="pink"></a-cylinder>
-        </a-box>
+      <!-- ========================================== -->
+      <!-- 5. GIAN TRƯỚC MẶT (VCR CINEMA) -->
+      <!-- ========================================== -->
+      <a-entity position="0 0 -7.5">
+        <a-box position="0 2.5 -0.1" width="10" height="5.5" color="#000"></a-box>
+        <a-video src="#asset-vcr" width="9" height="5" position="0 2.5 0.05"></a-video>
+        <!-- Đèn hắt dưới chân màn hình (Emissive - Tự phát sáng) -->
+        <a-box position="0 0.05 0.2" width="9" height="0.1" depth="0.4" color="gold" id="neon-strip" material="emissive: gold; emissiveIntensity: 0.5"></a-box>
       </a-entity>
 
-      <!-- ======================================================== -->
-      <!-- HỆ THỐNG CAMERA -->
-      <a-entity id="rig" position="0 0 25" movement-controls="speed: 0.2;">
+      <!-- HỆ THỐNG DI CHUYỂN -->
+      <a-entity id="rig" position="0 0 6" movement-controls="speed: 0.15;">
         <a-entity id="camera" camera look-controls position="0 1.6 0">
             <a-cursor color="gold" scale="0.5 0.5 0.5"></a-cursor>
         </a-entity>
@@ -131,9 +138,41 @@
     </a-scene>
 
     <script>
+      // LOGIC BẬT TẮT ĐÈN
+      const btnLight = document.getElementById('light-toggle');
+      const mainLight = document.getElementById('main-light');
+      const skyLight = document.getElementById('sky-light');
+      const sky = document.getElementById('bg-sky');
+      const neon = document.getElementById('neon-strip');
+      let isOn = true;
+
+      btnLight.addEventListener('click', () => {
+        if(isOn) {
+          // CHẾ ĐỘ TẮT ĐÈN
+          mainLight.setAttribute('intensity', '0.05');
+          skyLight.setAttribute('intensity', '0.05');
+          sky.setAttribute('color', '#000');
+          neon.setAttribute('material', 'emissiveIntensity', '2'); // Neon sáng mạnh hơn khi tắt đèn
+          btnLight.innerText = "BẬT ĐÈN";
+          btnLight.style.background = "#333";
+          btnLight.style.color = "gold";
+        } else {
+          // CHẾ ĐỘ BẬT ĐÈN
+          mainLight.setAttribute('intensity', '1');
+          skyLight.setAttribute('intensity', '0.5');
+          sky.setAttribute('color', '#ECECEC');
+          neon.setAttribute('material', 'emissiveIntensity', '0.5');
+          btnLight.innerText = "TẮT ĐÈN";
+          btnLight.style.background = "gold";
+          btnLight.style.color = "black";
+        }
+        isOn = !isOn;
+      });
+
+      // LOGIC DI CHUYỂN
       const rig = document.querySelector('#rig');
       const camera = document.querySelector('#camera');
-      const speed = 0.2; 
+      const speed = 0.15; 
       let activeMove = null;
 
       function move() {
@@ -141,23 +180,10 @@
         let rotation = camera.getAttribute('rotation');
         let angle = rotation.y * (Math.PI / 180);
         let pos = rig.getAttribute('position');
-
-        if (activeMove === 'up') {
-          pos.x -= Math.sin(angle) * speed;
-          pos.z -= Math.cos(angle) * speed;
-        }
-        if (activeMove === 'down') {
-          pos.x += Math.sin(angle) * speed;
-          pos.z += Math.cos(angle) * speed;
-        }
-        if (activeMove === 'left') {
-          pos.x -= Math.cos(angle) * speed;
-          pos.z += Math.sin(angle) * speed;
-        }
-        if (activeMove === 'right') {
-          pos.x += Math.cos(angle) * speed;
-          pos.z -= Math.sin(angle) * speed;
-        }
+        if (activeMove === 'up') { pos.x -= Math.sin(angle) * speed; pos.z -= Math.cos(angle) * speed; }
+        if (activeMove === 'down') { pos.x += Math.sin(angle) * speed; pos.z += Math.cos(angle) * speed; }
+        if (activeMove === 'left') { pos.x -= Math.cos(angle) * speed; pos.z += Math.sin(angle) * speed; }
+        if (activeMove === 'right') { pos.x += Math.cos(angle) * speed; pos.z -= Math.sin(angle) * speed; }
         rig.setAttribute('position', pos);
         requestAnimationFrame(move);
       }
@@ -166,19 +192,12 @@
         const el = document.getElementById(id);
         const start = (e) => { e.preventDefault(); activeMove = dir; move(); };
         const stop = () => { activeMove = null; };
-        el.addEventListener('mousedown', start);
-        el.addEventListener('touchstart', start);
-        window.addEventListener('mouseup', stop);
-        window.addEventListener('touchend', stop);
+        el.addEventListener('mousedown', start); el.addEventListener('touchstart', start);
+        window.addEventListener('mouseup', stop); window.addEventListener('touchend', stop);
       };
+      bindBtn('up', 'up'); bindBtn('down', 'down'); bindBtn('left', 'left'); bindBtn('right', 'right');
 
-      bindBtn('btn-up', 'up');
-      bindBtn('btn-down', 'down');
-      bindBtn('btn-left', 'left');
-      bindBtn('btn-right', 'right');
-
-      // Tự chạy Video khi click
-      window.addEventListener('click', () => { document.querySelector('#vcr_video').play(); }, {once: true});
+      window.addEventListener('click', () => { document.querySelector('#asset-vcr').play(); }, {once: true});
     </script>
   </body>
 </html>
