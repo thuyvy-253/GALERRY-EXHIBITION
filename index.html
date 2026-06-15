@@ -2,121 +2,136 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | The Multi-Room Voyage</title>
+    <title>CAPTAIN BOY 20.08 | The Ultimate Voyage</title>
+    <!-- Thư viện A-Frame & Tiện ích di chuyển -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
 
-    <a-scene shadow="type: pcfsoft" renderer="colorManagement: true">
+    <a-scene shadow="type: pcfsoft" renderer="colorManagement: true; antialias: true;">
       
+      <!-- QUẢN LÝ TÀI NGUYÊN - Hãy nén ảnh thành .WebP để mượt nhất -->
       <a-assets>
-        <!-- Assets Ảnh & Video -->
         <video id="vcr_video" src="vcr_captain.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <img id="music_cover" src="https://via.placeholder.com/500x500?text=Song+Cover">
-        <img id="milestone_img" src="https://via.placeholder.com/800x1000?text=Winning+Moment">
-        <img id="birthday_img" src="https://via.placeholder.com/1000x1500?text=Captain+Boy+BDay">
-        <img id="floor_marble" src="https://i.imgur.com/83uD3Nf.jpg">
+        <img id="wall_tex" src="https://i.imgur.com/83uD3Nf.jpg"> <!-- Sàn đá/Tường -->
+        <img id="music_disc" src="https://via.placeholder.com/500x500?text=Song+Art">
+        <img id="photo_1" src="https://via.placeholder.com/600x900?text=Captain+1">
+        <img id="milestone_1" src="https://via.placeholder.com/800x1100?text=Award">
+        <img id="hero_img" src="https://via.placeholder.com/1000x1500?text=HAPPY+BIRTHDAY">
       </a-assets>
 
-      <!-- 1. CẤU TRÚC KIẾN TRÚC TỔNG THỂ -->
-      <a-sky color="#020205"></a-sky>
-      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#0a0a0a" roughness="0.5"></a-plane>
+      <!-- 1. MÔI TRƯỜNG & ÁNH SÁNG TỔNG THỂ -->
+      <a-sky color="#050505"></a-sky>
+      <a-light type="ambient" color="#333"></a-light>
+      <!-- Sàn nhà phản chiếu nhẹ -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#111" roughness="0.4"></a-plane>
 
       <!-- ======================================================== -->
-      <!-- ZONE 1: LỐI VÀO & HÀNH LANG KÝ ỨC (Z: 20 to 5) -->
-      <a-entity id="entry_hallway">
-        <a-text value="THE VOYAGE BEGINS" position="-2 4 18" color="gold" width="10"></a-text>
-        
-        <!-- Vách hành lang -->
-        <a-box position="-4 2.5 10" width="0.2" height="5" depth="20" color="#111"></a-box>
-        <a-box position="4 2.5 10" width="0.2" height="5" depth="20" color="#111"></a-box>
+      <!-- ZONE 1: HÀNH LANG DẪN LỐI (MEMORY LANE) -->
+      <a-entity id="hallway" position="0 0 15">
+        <!-- Biển chào mừng đầu cổng -->
+        <a-plane position="0 3 4" width="4" height="1.5" color="#000" material="opacity: 0.8">
+            <a-text value="THE VOYAGE OF CAPTAIN BOY\n20.08 EXHIBITION" align="center" color="gold" width="6"></a-text>
+        </a-plane>
 
-        <!-- Trái: VCR Screens -->
-        <a-video src="#vcr_video" width="4" height="2.2" position="-3.8 2.5 14" rotation="0 90 0"></a-video>
-        <a-video src="#vcr_video" width="4" height="2.2" position="-3.8 2.5 8" rotation="0 90 0"></a-video>
+        <!-- Vách tường hành lang -->
+        <a-box position="-4 2.5 0" width="0.2" height="5" depth="12" color="#1a1a1a"></a-box>
+        <a-box position="4 2.5 0" width="0.2" height="5" depth="12" color="#1a1a1a"></a-box>
 
-        <!-- Phải: Photo Gallery -->
-        <a-image src="#milestone_img" width="2.5" height="3.5" position="3.8 2.5 14" rotation="0 -90 0"></a-image>
-        <a-image src="#milestone_img" width="2.5" height="3.5" position="3.8 2.5 8" rotation="0 -90 0"></a-image>
+        <!-- VCR & Photo Gallery dọc hành lang -->
+        <a-video src="#vcr_video" width="3.5" height="2" position="-3.8 2.5 3" rotation="0 90 0"></a-video>
+        <a-image src="#photo_1" width="2" height="3" position="3.8 2.5 3" rotation="0 -90 0"></a-image>
       </a-entity>
 
 
       <!-- ======================================================== -->
-      <!-- ZONE 2: PHÒNG ÂM NHẠC "THE SOUNDWAVE" (Trái) -->
-      <!-- Lối vào tại x=-4, z=0 -->
-      <a-entity id="music_room" position="-15 0 0">
-        <!-- Cấu trúc phòng -->
-        <a-box position="0 2.5 -5" width="10" height="5" depth="0.2" color="#0a1a2a"></a-box> <!-- Tường hậu -->
-        <a-box position="-5 2.5 0" width="0.2" height="5" depth="10" color="#0a1a2a"></a-box> <!-- Tường trái -->
-        <a-text value="THE MELODY OCEAN" position="-2 4 -4.8" color="#4facfe" width="8" align="center"></a-text>
+      <!-- BIỂN CHỈ DẪN TẠI NGÃ TƯ (JUNCTION SIGNAGE) -->
+      <a-entity id="navigation_signs" position="0 0 5">
+        <!-- Cột chỉ dẫn -->
+        <a-cylinder position="0 1 0" radius="0.05" height="2" color="gold"></a-cylinder>
+        
+        <!-- Bảng chỉ trái -->
+        <a-plane position="-0.8 1.8 0" width="1.5" height="0.4" color="#222">
+            <a-text value="<-- MUSIC ROOM" align="center" width="3" color="white"></a-text>
+        </a-plane>
 
-        <!-- Idea: Đĩa nhạc bay và phát sáng -->
-        <a-entity position="0 2.5 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
-            <a-cylinder radius="1" height="0.05" src="#music_cover" position="3 0 0" rotation="90 0 0">
-                <a-light type="point" color="#4facfe" intensity="1" distance="3"></a-light>
-            </a-cylinder>
-            <a-cylinder radius="1" height="0.05" src="#music_cover" position="-3 1 2" rotation="90 45 0"></a-cylinder>
-            <a-cylinder radius="1" height="0.05" src="#music_cover" position="1 -1 -3" rotation="90 -30 0"></a-cylinder>
+        <!-- Bảng chỉ phải -->
+        <a-plane position="0.8 1.4 0" width="1.5" height="0.4" color="#222">
+            <a-text value="MILESTONES -->" align="center" width="3" color="white"></a-text>
+        </a-plane>
+
+        <!-- Bảng chỉ thẳng -->
+        <a-plane position="0 2.2 0" width="2" height="0.5" color="gold">
+            <a-text value="GRAND HALL ^" align="center" width="4" color="black"></a-text>
+        </a-plane>
+      </a-entity>
+
+
+      <!-- ======================================================== -->
+      <!-- ZONE 2: PHÒNG NHẠC (MUSIC ROOM - CÁNH TRÁI) -->
+      <a-entity id="music_room" position="-12 0 0">
+        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#051020"></a-box>
+        <a-text value="THE SOUNDWAVE" position="0 4 -5.8" align="center" color="#4facfe" width="10"></a-text>
+        
+        <!-- Đĩa nhạc xoay -->
+        <a-entity position="0 2.5 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 12000; easing: linear">
+            <a-cylinder radius="1.2" height="0.05" src="#music_disc" position="4 0 0" rotation="90 0 0"></a-cylinder>
+            <a-cylinder radius="1.2" height="0.05" src="#music_disc" position="-4 1 0" rotation="90 45 0"></a-cylinder>
         </a-entity>
       </a-entity>
 
 
       <!-- ======================================================== -->
-      <!-- ZONE 3: PHÒNG CỘT MỐC "THE MILESTONES" (Phải) -->
-      <a-entity id="milestone_room" position="15 0 0">
-        <a-box position="0 2.5 -5" width="10" height="5" depth="0.2" color="#1a1a1a"></a-box>
-        <a-box position="5 2.5 0" width="0.2" height="5" depth="10" color="#1a1a1a"></a-box>
-        <a-text value="CAREER MILESTONES" position="-2 4 -4.8" color="gold" width="8" align="center"></a-text>
-
-        <!-- Trưng bày tranh khổ lớn có đèn spotlight -->
-        <a-image src="#milestone_img" width="4" height="3" position="0 2.5 -4.8"></a-image>
-        <a-light type="spot" color="white" position="0 5 -2" rotation="-45 0 0" intensity="2"></a-light>
+      <!-- ZONE 3: PHÒNG CỘT MỐC (MILESTONE - CÁNH PHẢI) -->
+      <a-entity id="milestone_room" position="12 0 0">
+        <a-box position="0 2.5 -6" width="12" height="5" depth="0.2" color="#151515"></a-box>
+        <a-text value="SUCCESS JOURNEY" position="0 4 -5.8" align="center" color="gold" width="10"></a-text>
         
-        <!-- Bục trưng bày giải thưởng (giả lập) -->
-        <a-box position="-3 0.5 -3" width="1" height="1" depth="1" color="#222">
-            <a-sphere position="0 0.8 0" radius="0.3" color="gold"></a-sphere> <!-- Cúp giả -->
-        </a-box>
+        <!-- Ảnh cột mốc lớn -->
+        <a-image src="#milestone_1" width="4" height="3" position="0 2.5 -5.7"></a-image>
+        <a-light type="spot" color="gold" position="0 5 -3" rotation="-45 0 0" intensity="2"></a-light>
       </a-entity>
 
 
       <!-- ======================================================== -->
-      <!-- ZONE 4: SẢNH CHÍNH SINH NHẬT "THE GRAND HALL" (Trung tâm) -->
-      <a-entity id="main_hall" position="0 0 -15">
-        <!-- Không gian mở rộng -->
-        <a-text value="CAPTAIN BOY DAY - 20.08" position="0 6 -8" align="center" width="15" color="gold"></a-text>
+      <!-- ZONE 4: SẢNH CHÍNH SINH NHẬT (GRAND HALL - TRUNG TÂM) -->
+      <a-entity id="grand_hall" position="0 0 -15">
+        <!-- Cổng chào sảnh chính -->
+        <a-torus color="gold" arc="180" radius="4" radius-tubular="0.05" position="0 0 2"></a-torus>
         
-        <!-- Standee trung tâm khổng lồ -->
-        <a-entity position="0 0 -5">
-            <a-image src="#birthday_img" width="5" height="8" transparent="true"></a-image>
-            <!-- Hiệu ứng bục tròn phát sáng dưới chân -->
-            <a-cylinder radius="3" height="0.1" color="#gold" material="opacity: 0.5; transparent: true"></a-cylinder>
-            <a-light type="point" color="gold" intensity="2" position="0 4 2"></a-light>
-        </a-entity>
-
-        <!-- Tường Fan Wish (Trái sảnh chính) -->
-        <a-entity position="-7 2.5 -5" rotation="0 30 0">
-            <a-plane width="6" height="4" color="#fff" material="opacity: 0.1; transparent: true"></a-plane>
-            <a-text value="FAN'S MESSAGES\n\n'Chuc anh sinh nhat vui ve!'\n'Always support Captain Boy!'" align="center" width="5"></a-text>
-        </a-entity>
+        <!-- Standee Captain Boy khổng lồ -->
+        <a-image src="#hero_img" width="6" height="9" position="0 4.5 -5" transparent="true"></a-image>
+        <a-text value="HAPPY BIRTHDAY CAPTAIN BOY\n20.08" align="center" position="0 10 -5" width="20" color="white"></a-text>
+        
+        <!-- Đèn rọi từ dưới lên -->
+        <a-light type="point" color="gold" intensity="3" position="0 0.5 -3"></a-light>
+        
+        <!-- Tường Fan Wish -->
+        <a-plane position="-8 3 -3" rotation="0 45 0" width="5" height="3" color="#222">
+            <a-text value="FAN MESSAGES\n---\nWe love your music!\nHappy Birthday Captain!" align="center" width="4"></a-text>
+        </a-plane>
       </a-entity>
 
 
       <!-- ======================================================== -->
-      <!-- HỆ THỐNG DI CHUYỂN -->
-      <a-entity id="rig" movement-controls="speed: 0.3">
-        <a-entity camera look-controls position="0 1.6 20">
-            <a-cursor color="gold"></a-cursor>
+      <!-- ĐIỀU KHIỂN & CAMERA -->
+      <a-entity id="rig" movement-controls="speed: 0.25; fly: false">
+        <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 22">
+            <!-- Cursor tương tác -->
+            <a-cursor color="gold" scale="0.5 0.5 0.5"></a-cursor>
         </a-entity>
       </a-entity>
 
     </a-scene>
 
     <script>
-        // Bật nhạc và video khi bắt đầu
-        window.addEventListener('click', function() {
-            document.querySelector('#vcr_video').play();
-        });
+      // Xử lý Audio/Video khi người dùng click lần đầu
+      window.addEventListener('click', function() {
+          var vcr = document.querySelector('#vcr_video');
+          vcr.play();
+          console.log("Exhibition Experience Started");
+      });
     </script>
   </body>
 </html>
