@@ -2,141 +2,112 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY 20.08 | The Grand Exhibition</title>
-    <meta name="description" content="A premium 3D experience for Captain Boy's Birthday">
-    <!-- A-Frame Base -->
+    <title>CAPTAIN BOY 20.08 | The Memory Hallway</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <!-- Environment: Tạo không gian triển lãm xịn xò trong 1 dòng lệnh -->
     <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
-    <!-- Extras for movement & animation -->
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <!-- Thư viện tạo chữ 3D đẹp hơn -->
-    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.2/dist/aframe-text-geometry-component.min.js"></script>
-
-    <style>
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; justify-content: center;
-            align-items: center; color: gold; font-family: sans-serif;
-        }
-    </style>
   </head>
   <body>
-    <!-- Màn hình chờ cho chuyên nghiệp -->
-    <div id="loader" class="loading-overlay">
-        <h1>PREPARING THE VOYAGE...</h1>
-    </div>
 
-    <a-scene shadow="type: pcfsoft" renderer="antialias: true; colorManagement: true;">
+    <a-scene shadow="type: pcfsoft">
       
       <a-assets>
-        <!-- Thay thế bằng link ảnh thực tế của Captain Boy -->
-        <img id="wall-texture" src="https://i.imgur.com/83uD3Nf.jpg"> 
-        <img id="cap-hero" src="https://via.placeholder.com/1000x1500?text=CAPTAIN+BOY+MAIN">
-        <img id="cap-baby" src="https://via.placeholder.com/500x500?text=Childhood">
-        <img id="cap-contest" src="https://via.placeholder.com/800x500?text=Competition">
-        <img id="cap-music" src="https://via.placeholder.com/600x600?text=Album+Art">
+        <!-- Video VCR (Bạn thay link video vào đây) -->
+        <!-- Lưu ý: Để video tự chạy trên web, thường phải để muted (tắt tiếng) trước -->
+        <video id="vcr-1" src="vcr1.mp4" autoplay loop="true" muted crossorigin="anonymous"></video>
+        <video id="vcr-2" src="vcr2.mp4" autoplay loop="true" muted crossorigin="anonymous"></video>
         
-        <!-- Video (Nếu bạn có clip biểu diễn, thay link vào đây) -->
-        <video id="mv-clip" autoplay loop="true" src="your-video-link.mp4" crossorigin="anonymous"></video>
+        <!-- Ảnh (Thay link ảnh của bạn) -->
+        <img id="photo-1" src="https://via.placeholder.com/400x600?text=CAPTAIN+1">
+        <img id="photo-2" src="https://via.placeholder.com/400x600?text=CAPTAIN+2">
+        <img id="photo-3" src="https://via.placeholder.com/400x600?text=CAPTAIN+3">
+        
+        <!-- Texture tường/sàn -->
+        <img id="marble" src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/bricks/brick_diffuse.jpg">
       </a-assets>
 
-      <!-- 1. MÔI TRƯỜNG (ENVIRONMENT) - Thay 'starry' bằng 'egypt' hoặc 'contact' nếu muốn đổi style -->
-      <a-entity environment="preset: starry; groundColor: #050505; grid: cross; lighting: point; skyType: gradient; skyColor: #000814"></a-entity>
-
-      <!-- 2. HỆ THỐNG ÁNH SÁNG TRUNG TÂM -->
-      <a-light type="ambient" intensity="0.3"></a-light>
-      <a-light type="point" position="0 10 0" intensity="0.8" color="#4facfe"></a-light>
+      <!-- MÔI TRƯỜNG: Starry night cho sang trọng -->
+      <a-entity environment="preset: starry; ground: canyon; groundColor: #000; grid: none"></a-entity>
 
       <!-- ======================================================== -->
-      <!-- ZONE 1: THE ORIGIN (Khởi đầu - Cổng vào) -->
+      <!-- HÀNH LANG DẪN LỐI (THE MEMORY HALLWAY) -->
+      <!-- Bắt đầu từ Z=15 đến Z=0 -->
       <a-entity position="0 0 0">
-        <!-- Cổng chào 3D -->
-        <a-box position="0 4 -2" width="8" height="0.5" depth="1" color="#FFD700" metalness="0.8" roughness="0.2"></a-box>
-        <a-text value="CAPTAIN BOY EXHIBITION: THE VOYAGE 20.08" align="center" position="0 4.5 -1.9" width="10" font="exo2bold" color="white"></a-text>
         
-        <!-- Gallery ảnh nhỏ thơ ấu -->
-        <a-entity position="-5 2 -5" rotation="0 45 0">
-            <a-image src="#cap-baby" width="3" height="3" shadow></a-image>
-            <a-text value="WHERE IT BEGAN" position="-1.5 -1.8 0" width="4"></a-text>
-        </a-entity>
-      </a-entity>
+        <!-- 1. Sàn hành lang (Thảm đỏ hoặc đường dẫn sáng) -->
+        <a-plane position="0 0.01 7.5" rotation="-90 0 0" width="4" height="15" color="#111" metalness="0.5"></a-plane>
+        <a-light type="rectLight" color="#4facfe" intensity="2" position="0 0.1 7.5" rotation="-90 0 0" width="4" height="15"></a-light>
 
-      <!-- ZONE 2: THE ARENA (Cuộc thi & King of Rap/Anh Trai Say Hi) -->
-      <a-entity position="10 0 -15" rotation="0 -30 0">
-        <!-- Sân khấu nhỏ -->
-        <a-cylinder position="0 0.1 0" radius="4" height="0.2" color="#222"></a-cylinder>
-        <a-image src="#cap-contest" position="0 3 -1" width="6" height="4" shadow></a-image>
-        
-        <!-- Hiệu ứng đèn quét sân khấu -->
-        <a-entity position="0 6 0">
-            <a-light type="spot" color="#ff0000" intensity="2" angle="20" rotation="-90 0 0">
-                <a-animation attribute="rotation" to="-90 360 0" dur="5000" repeat="indefinite" easing="linear"></a-animation>
-            </a-light>
-        </a-entity>
-        <a-text value="THE STAGE ON FIRE" align="center" position="0 5.5 0" width="8" color="#ff4500"></a-text>
-      </a-entity>
-
-      <!-- ZONE 3: THE MELODY NEBULA (Âm nhạc - Không gian lơ lửng) -->
-      <a-entity position="-10 0 -25" rotation="0 30 0">
-        <!-- Đĩa nhạc bay lơ lửng xung quanh -->
-        <a-entity id="vinyl-record" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
-            <a-cylinder position="3 2 0" radius="1.2" height="0.05" src="#cap-music" rotation="90 0 0"></a-cylinder>
-            <a-cylinder position="-3 3 1" radius="1.2" height="0.05" src="#cap-music" rotation="70 45 0"></a-cylinder>
-            <a-cylinder position="0 4 -3" radius="1.2" height="0.05" src="#cap-music" rotation="110 -20 0"></a-cylinder>
-        </a-entity>
-        <a-text value="SOUNDS OF CAPTAIN" align="center" position="0 1 0" width="7" color="#4facfe"></a-text>
-      </a-entity>
-
-      <!-- ZONE 4: BIRTHDAY SUPERNOVA (Khu vực chính - Sinh nhật) -->
-      <a-entity position="0 0 -40">
-        <!-- Hologram Captain Boy khổng lồ -->
-        <a-image src="#cap-hero" position="0 4 -5" width="6" height="9" material="opacity: 0.9; transparent: true; shader: standard; emissive: #4facfe; emissiveIntensity: 0.2" shadow></a-image>
-        
-        <!-- Hiệu ứng hạt lấp lánh (dùng vật thể nhỏ thay thế nếu ko muốn cài thêm lib) -->
-        <a-entity position="0 2 -4">
-            <a-sphere position="-2 1 1" radius="0.1" color="gold" animation="property: position; to: -2 1.5 1; dir: alternate; loop: true"></a-sphere>
-            <a-sphere position="2 2 -1" radius="0.1" color="gold" animation="property: position; to: 2 1  -1; dir: alternate; loop: true; dur: 1500"></a-sphere>
-            <a-sphere position="1 3 2" radius="0.1" color="white" animation="property: position; to: 1 3.5 2; dir: alternate; loop: true; dur: 2000"></a-sphere>
+        <!-- 2. BÊN TRÁI: DÃY VIDEO VCR -->
+        <!-- Màn hình 1 -->
+        <a-entity position="-2.5 2 12">
+            <a-box width="3.2" height="1.9" depth="0.1" color="#000"></a-box> <!-- Khung TV -->
+            <a-video src="#vcr-1" width="3" height="1.7" position="0 0 0.06"></a-video>
+            <a-light type="point" color="#4facfe" intensity="0.5" position="0 0 1"></a-light>
         </a-entity>
 
-        <!-- Lời chúc từ Fan (Sắp xếp theo hình tròn) -->
-        <a-entity position="0 1 -2">
-            <a-plane rotation="-20 0 0" width="3" height="1.5" color="#fff" material="opacity: 0.8">
-                <a-text value="Happy Birthday Captain!\nKeep shining like a star." align="center" color="#000" width="3"></a-text>
-            </a-plane>
+        <!-- Màn hình 2 -->
+        <a-entity position="-2.5 2 7">
+            <a-box width="3.2" height="1.9" depth="0.1" color="#000"></a-box>
+            <a-video src="#vcr-2" width="3" height="1.7" position="0 0 0.06"></a-video>
         </a-entity>
 
-        <!-- Nút bấm tương tác - Chúc mừng sinh nhật -->
-        <a-gui-button position="0 0.5 -1" width="2" height="0.5" value="CLICK TO WISH" font-family="Arial"></a-gui-button>
+        <!-- 3. BÊN PHẢI: DÃY ẢNH NGHỆ THUẬT -->
+        <!-- Ảnh 1 -->
+        <a-entity position="2.5 2 12" rotation="0 -20 0">
+            <a-box width="2.2" height="3.2" depth="0.1" color="#fff">
+                <a-image src="#photo-1" width="2" height="3" position="0 0 0.06"></a-image>
+            </a-box>
+        </a-entity>
+
+        <!-- Ảnh 2 -->
+        <a-entity position="2.5 2 7" rotation="0 -20 0">
+            <a-box width="2.2" height="3.2" depth="0.1" color="#fff">
+                <a-image src="#photo-2" width="2" height="3" position="0 0 0.06"></a-image>
+            </a-box>
+        </a-entity>
+
+        <!-- Ảnh 3 -->
+        <a-entity position="2.5 2 2" rotation="0 -20 0">
+            <a-box width="2.2" height="3.2" depth="0.1" color="#fff">
+                <a-image src="#photo-3" width="2" height="3" position="0 0 0.06"></a-image>
+            </a-box>
+        </a-entity>
+
       </a-entity>
 
       <!-- ======================================================== -->
-      <!-- HỆ THỐNG DI CHUYỂN & CAMERA -->
-      <a-entity id="rig" movement-controls="speed: 0.3; constrainToNavMesh: true">
-        <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 5">
-          <!-- Tâm ngắm tương tác -->
-          <a-cursor color="#4facfe" fuse="false"></a-cursor>
+      <!-- SẢNH CHÍNH (MAIN PLAZA) - Xuất hiện sau khi đi hết hành lang -->
+      <a-entity position="0 0 -5">
+        <!-- Cổng vòm chào mừng -->
+        <a-torus color="gold" arc="180" radius="5" radius-tubular="0.05" position="0 0 0" rotation="0 0 0"></a-torus>
+        <a-text value="WELCOME TO CAPTAIN'S WORLD" align="center" position="0 6 0" width="12" color="gold" font="exo2bold"></a-text>
+
+        <!-- (Các khu vực khác bạn đã có từ bản trước có thể copy vào đây) -->
+        <a-image src="#photo-1" position="0 2.5 -5" width="5" height="7"></a-image>
+      </a-entity>
+
+      <!-- ======================================================== -->
+      <!-- CAMERA & DI CHUYỂN -->
+      <!-- Đặt camera ở Z=18 để người xem bắt đầu từ ngoài hành lang -->
+      <a-entity id="rig" movement-controls="speed: 0.2">
+        <a-entity camera look-controls position="0 1.6 18">
+            <a-cursor color="gold"></a-cursor>
         </a-entity>
       </a-entity>
 
     </a-scene>
 
     <script>
-        // Xử lý màn hình chờ
-        window.addEventListener('load', function () {
-            document.getElementById('loader').style.display = 'none';
-        });
-
-        // Thêm sự kiện Click vào các ảnh để phóng to (Logic IT cơ bản)
-        document.querySelectorAll('a-image').forEach(img => {
-            img.addEventListener('click', function() {
-                this.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dur: 300');
-            });
-            img.addEventListener('mouseleave', function() {
-                this.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 300');
-            });
-        });
+        // Tự động bật tiếng khi người dùng click vào màn hình (do chính sách trình duyệt)
+        document.body.addEventListener('click', function() {
+            var v1 = document.querySelector('#vcr-1');
+            var v2 = document.querySelector('#vcr-2');
+            v1.muted = false;
+            v2.muted = false;
+            v1.play();
+            v2.play();
+        }, {once: true});
     </script>
   </body>
 </html>
