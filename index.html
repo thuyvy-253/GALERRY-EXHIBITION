@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | FULL GALLERY</title>
+    <title>CAPTAIN BOY | A LITTLE LOVE</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <style>
-      /* Fix lỗi cuộn trang trên điện thoại */
+      /* Ngăn chặn các thao tác mặc định của trình duyệt điện thoại để điều khiển mượt hơn */
       body { overflow: hidden; touch-action: none; }
       #nav-ui {
         position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -22,8 +22,8 @@
       .btn:active { background: #00ffff; }
       #light-toggle { 
         position: fixed; top: 20px; right: 20px; z-index: 10000; 
-        width: 160px; height: 45px; background: #4b0082; color: white; 
-        border: 2px solid gold; border-radius: 25px; font-weight: bold;
+        width: 170px; height: 45px; background: #4b0082; color: white; 
+        border: 2px solid gold; border-radius: 25px; font-weight: bold; font-size: 13px;
       }
     </style>
   </head>
@@ -42,11 +42,14 @@
       <div class="btn rotate-btn" id="rot-right">↻</div>
     </div>
 
+    <!-- magicWindowTrackingEnabled: false để khóa cảm biến nghiêng, touchEnabled: true để xoay bằng tay -->
     <a-scene renderer="antialias: true; colorManagement: true;" vr-mode-ui="enabled: false">
+      
       <a-assets>
-        <video id="video-main" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
+        <!-- THAY LINK ẢNH MAIN CHỖ NÀY -->
+        <img id="img-main-art" src="https://via.placeholder.com/1200x600/4b0082/ffffff?text=CAPTAIN+BOY+ART">
         <video id="video-landmark" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/1a0033/ffffff?text=GALAXY+WALL">
+        <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/1a0033/ffffff?text=GALAXY">
         <img id="img-brick" src="https://via.placeholder.com/512x512/333/fff?text=BRICK">
         <img id="img-wood" src="https://via.placeholder.com/512x512/d7ccc8/333?text=WOOD">
       </a-assets>
@@ -54,12 +57,12 @@
       <a-light id="ambient-light" type="ambient" intensity="0.05"></a-light>
       <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.05" distance="60"></a-light>
       
-      <!-- Bầu trời Galaxy Tím mặc định -->
+      <!-- Màu trời khi Tắt đèn là Tím Galaxy -->
       <a-sky id="bg-sky" color="#1a0033"></a-sky>
       <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="30" color="#111"></a-plane>
       <a-plane id="ceiling" position="0 6 0" rotation="90 0 0" width="16" height="30" color="#000"></a-plane>
 
-      <!-- VÁCH TƯỜNG TRÁI -->
+      <!-- VÁCH TƯỜNG TRÁI (NỐI TIẾP VIDEO VÀO ĐÂY) -->
       <a-box id="wall-kids" position="-7.95 3 12" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
       <a-entity id="zone-kids" position="-7.85 0 12" rotation="0 90 0"></a-entity>
       
@@ -69,44 +72,48 @@
       <a-box id="wall-rv" position="-7.95 3 0" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick" color="#222"></a-box>
       <a-entity id="zone-rv" position="-7.85 0 0" rotation="0 90 0"></a-entity>
 
+      <!-- VIDEO LANDMARK NỐI TIẾP TRÊN TƯỜNG TRÁI -->
+      <a-box position="-7.95 3 -6" rotation="0 90 0" width="6" height="6" depth="0.1" color="#000"></a-box>
+      <a-video src="#video-landmark" position="-7.85 3 -6" rotation="0 90 0" width="5.5" height="3.5"></a-video>
+
       <!-- VÁCH TƯỜNG PHẢI -->
       <a-box id="wall-galaxy" position="7.95 3 2" rotation="0 -90 0" width="16" height="6" depth="0.1" src="#img-galaxy" material="repeat: 2 1"></a-box>
       <a-entity id="zone-atsh" position="7.85 0 6" rotation="0 -90 0"></a-entity>
       <a-entity id="zone-thsh" position="7.85 0 -2" rotation="0 -90 0"></a-entity>
 
-      <!-- THE CORE -->
+      <!-- THE CORE (CHUYỂN VIDEO THÀNH ẢNH) -->
       <a-entity id="the-core" position="0 0 -12">
-          <a-video src="#video-main" width="12" height="4.5" position="0 3 -2.5"></a-video>
-          <a-video src="#video-landmark" width="6.5" height="3.8" position="0 2.2 20"></a-video>
+          <a-image src="#img-main-art" width="12" height="6" position="0 3 -2.5"></a-image>
       </a-entity>
 
-      <!-- CAMERA: Khóa cảm biến nghiêng (magicWindowTrackingEnabled: false) -->
+      <a-entity id="stars-container"></a-entity>
+
+      <!-- CAMERA RIG: KHÓA CẢM BIẾN ĐỂ HẾT CHÚI ĐẤT -->
       <a-entity id="rig" position="0 0 14">
         <a-entity id="camera" camera look-controls="magicWindowTrackingEnabled: false; touchEnabled: true" position="0 1.6 0">
             <a-cursor color="cyan" scale="0.5 0.5 0.5"></a-cursor>
         </a-entity>
       </a-entity>
-      <a-entity id="stars-container"></a-entity>
+
     </a-scene>
 
     <script>
       // ==========================================
-      // CHỖ THAY LINK ẢNH CỦA BẠN Ở ĐÂY (10 ảnh mỗi khu)
+      // THAY 10 LINK ẢNH CHO MỖI KHU VỰC VÀO ĐÂY
       // ==========================================
-      const urls_kids = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
-      const urls_kor  = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
-      const urls_rv   = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
-      const urls_atsh = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
-      const urls_thsh = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
+      const urls_kids = ["", "", "", "", "", "", "", "", "", ""];
+      const urls_kor  = ["", "", "", "", "", "", "", "", "", ""];
+      const urls_rv   = ["", "", "", "", "", "", "", "", "", ""];
+      const urls_atsh = ["", "", "", "", "", "", "", "", "", ""];
+      const urls_thsh = ["", "", "", "", "", "", "", "", "", ""];
 
-      // Hàm tạo gallery ảnh
       const createGallery = (id, list, isGalaxy) => {
         const parent = document.getElementById(id);
         for(let i=0; i<10; i++){
           let r = Math.floor(i/5); let c = i%5;
           let z = -2.2 + (c * 1.1); let y = 1.8 + (r * 1.8);
           let img = document.createElement('a-image');
-          img.setAttribute('src', list[i] || 'https://via.placeholder.com/400x600');
+          img.setAttribute('src', list[i] || 'https://via.placeholder.com/400x600/4b0082/ffffff');
           img.setAttribute('width', '0.8'); img.setAttribute('height', '1.1');
           img.setAttribute('position', `${z} ${y} 0.05`);
           if(isGalaxy) {
@@ -123,7 +130,7 @@
       createGallery('zone-atsh', urls_atsh, true);
       createGallery('zone-thsh', urls_thsh, true);
 
-      // Tạo sao trời
+      // Sao trời lấp lánh
       for(let i=0; i<150; i++){
         let star = document.createElement('a-sphere');
         star.setAttribute('radius', '0.015');
@@ -132,18 +139,18 @@
         document.getElementById('stars-container').appendChild(star);
       }
 
-      // Logic chuyển màu Tím Galaxy khi tắt đèn
+      // Logic Tắt đèn sang màu Tím Galaxy
       const lightBtn = document.getElementById('light-toggle');
       let isBright = false;
       lightBtn.addEventListener('click', () => {
         isBright = !isBright;
         document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.2 : 0.05);
         document.getElementById('gallery-light').setAttribute('intensity', isBright ? 2.0 : 0.05);
-        document.getElementById('bg-sky').setAttribute('color', isBright ? '#ccc' : '#1a0033'); // Đổi sang tím
+        document.getElementById('bg-sky').setAttribute('color', isBright ? '#ccc' : '#1a0033'); // Đổi sang tím khi tắt đèn
         lightBtn.innerText = isBright ? "CHẾ ĐỘ: SÁNG ĐÈN" : "CHẾ ĐỘ: TẮT ĐÈN";
       });
 
-      // Hệ thống di chuyển Mobile (Đi thẳng theo hướng mắt nhìn)
+      // Hệ thống di chuyển mượt mà cho Mobile
       const rig = document.getElementById('rig');
       const camera = document.getElementById('camera');
       let moveDir = null; let rotateDir = null;
@@ -179,7 +186,8 @@
       };
       bind('up','move','up'); bind('down','move','down'); bind('left','move','left'); bind('right','move','right');
       bind('rot-left','rotate','left'); bind('rot-right','rotate','right');
-      window.addEventListener('click', () => { document.querySelectorAll('video').forEach(v => v.play()); }, {once: true});
+
+      window.addEventListener('click', () => { document.querySelector('video').play(); }, {once: true});
     </script>
   </body>
 </html>
