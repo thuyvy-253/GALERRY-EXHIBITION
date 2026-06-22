@@ -24,7 +24,7 @@
   </head>
   <body>
 
-    <button id="light-toggle">CHẾ ĐỘ: GALAXY (ART)</button>
+    <button id="light-toggle">CHẾ ĐỘ: TẮT ĐÈN</button>
 
     <div id="nav-ui">
       <div class="btn rotate-btn" id="rot-left">↺</div>
@@ -134,17 +134,17 @@
       createGallery('zone-thsh', 'galaxy', urls_thsh);
 
       // SÀN 5 CỘT MỐC
-      const timelineData = [
-        {y: "2013", p: 12, l: "VOICE KIDS"}, {y: "2020", p: 6, l: "KING OF RAP"},
-        {y: "2023", p: 0, l: "RAP VIET"}, {y: "2024", p: -6, l: "Anh Trai Say Hi"}, {y: "2026", p: -12, l: "Tinh Hà Say Hi"}
-      ];
-      timelineData.forEach(item => {
-        let text = document.createElement('a-text');
-        text.setAttribute('value', `${item.y}\n${item.l}`);
-        text.setAttribute('position', `-0.6 0.02 ${item.p}`);
-        text.setAttribute('rotation', '-90 0 0'); text.setAttribute('width', '5'); text.setAttribute('color', 'gold');
-        document.getElementById('floor-timeline').appendChild(text);
-      });
+   //   const timelineData = [
+   //     {y: "2013", p: 12, l: "VOICE KIDS"}, {y: "2020", p: 6, l: "KING OF RAP"},
+   //     {y: "2023", p: 0, l: "RAP VIET"}, {y: "2024", p: -6, l: "Anh Trai Say Hi"}, {y: "2026", p: -12, l: "Tinh Hà Say Hi"}
+ //     ];
+      //timelineData.forEach(item => {
+        //let text = document.createElement('a-text');
+       // text.setAttribute('value', `${item.y}\n${item.l}`);
+       // text.setAttribute('position', `-0.6 0.02 ${item.p}`);
+       // text.setAttribute('rotation', '-90 0 0'); text.setAttribute('width', '5'); text.setAttribute('color', 'gold');
+     //   document.getElementById('floor-timeline').appendChild(text);
+    //  });
 
       // SAO TRỜI (Số lượng lớn cho nghệ kkk)
       for(let i=0; i<150; i++){
