@@ -5,7 +5,7 @@
     <title>CAPTAIN BOY | FULL GALLERY</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <style>
-
+      /* Fix lỗi cuộn trang trên điện thoại */
       body { overflow: hidden; touch-action: none; }
       #nav-ui {
         position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -44,7 +44,7 @@
 
     <a-scene renderer="antialias: true; colorManagement: true;" vr-mode-ui="enabled: false">
       <a-assets>
-       <img id="img-backdrop" src="https://via.placeholder.com/1024x1024/1a0033/ffffff?text=GALAXY+WALL">
+        <video id="video-main" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
         <video id="video-landmark" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
         <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/1a0033/ffffff?text=GALAXY+WALL">
         <img id="img-brick" src="https://via.placeholder.com/512x512/333/fff?text=BRICK">
@@ -91,7 +91,7 @@
 
     <script>
       // ==========================================
-      // CHỖ THAY LINK ẢNH Ở ĐÂY (10 ảnh mỗi khu)
+      // CHỖ THAY LINK ẢNH CỦA BẠN Ở ĐÂY (10 ảnh mỗi khu)
       // ==========================================
       const urls_kids = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
       const urls_kor  = ["link1", "link2", "link3", "link4", "link5", "link6", "link7", "link8", "link9", "link10"];
