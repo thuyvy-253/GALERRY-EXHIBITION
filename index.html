@@ -2,79 +2,77 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | GALAXY EDITION</title>
+    <title>CAPTAIN BOY | A LITTLE LOVE</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
     <style>
-      /* Giao diện điều khiển Mobile tối ưu */
-      #ui-container {
-        position: fixed; bottom: 30px; left: 0; right: 0;
-        display: flex; justify-content: space-between; align-items: flex-end;
-        padding: 0 30px; z-index: 10000; pointer-events: none;
+      /* THIẾT KẾ LẠI NÚT BẤM TO HƠN ĐỂ DỄ CHẠM TRÊN ĐIỆN THOẠI */
+      #nav-ui {
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+        z-index: 10000; display: flex; align-items: flex-end; gap: 15px;
+        background: rgba(0,0,0,0.5); padding: 15px; border-radius: 25px; backdrop-filter: blur(10px);
+        pointer-events: none; /* Tránh che khuất các click vào màn hình */
       }
-      
-      .control-group { display: grid; grid-template-columns: repeat(3, 65px); gap: 10px; pointer-events: auto; }
-      .rotate-group { display: flex; gap: 15px; pointer-events: auto; }
-
       .btn { 
-        width: 65px; height: 65px; background: rgba(255,255,255,0.2); 
-        border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; 
-        color: white; font-size: 24px; font-weight: bold; 
+        width: 70px; height: 70px; background: rgba(255,255,255,0.9); border: none; 
+        border-radius: 15px; color: #333; font-size: 24px; font-weight: bold; 
         display: flex; justify-content: center; align-items: center; 
-        backdrop-filter: blur(5px); user-select: none; -webkit-tap-highlight-color: transparent;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3); pointer-events: auto;
+        user-select: none; -webkit-tap-highlight-color: transparent;
       }
-      .btn:active { background: rgba(0, 255, 255, 0.5); transform: scale(0.9); }
-      .btn-special { border-radius: 50%; background: rgba(75, 0, 130, 0.5); border-color: #ff00ff; }
+      .rotate-btn { background: #111; color: #00ffff; border-radius: 50%; border: 2px solid #00ffff; }
+      .btn:active { transform: scale(0.9); background: #00ffff; }
 
       #light-toggle { 
-        position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-        z-index: 10000; width: 180px; height: 45px; 
-        background: rgba(75, 0, 130, 0.8); color: white; 
-        border: 2px solid #ff00ff; border-radius: 25px; 
-        font-weight: bold; cursor: pointer; backdrop-filter: blur(5px);
+        position: fixed; top: 20px; right: 20px; z-index: 10000; 
+        width: 180px; height: 50px; background: #4b0082; color: white; 
+        border: 2px solid gold; border-radius: 25px; font-weight: bold; 
+        font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
       }
     </style>
   </head>
   <body>
 
-    <button id="light-toggle">CHẾ ĐỘ: GALAXY TÍM</button>
+    <button id="light-toggle">CHẾ ĐỘ: TẮT ĐÈN</button>
 
-    <div id="ui-container">
-      <!-- Cụm di chuyển bên trái -->
-      <div class="control-group">
-        <div></div><div class="btn" id="up">▲</div><div></div>
-        <div class="btn" id="left">◀</div><div class="btn" id="down">▼</div><div class="btn" id="right">▶</div>
+    <div id="nav-ui">
+      <div class="btn rotate-btn" id="rot-left">↺</div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div class="btn" id="up">▲</div>
+        <div style="display: flex; gap: 10px;">
+            <div class="btn" id="left">◀</div>
+            <div class="btn" id="down">▼</div>
+            <div class="btn" id="right">▶</div>
+        </div>
       </div>
-      
-      <!-- Cụm xoay bên phải -->
-      <div class="rotate-group">
-        <div class="btn btn-special" id="rot-left">↺</div>
-        <div class="btn btn-special" id="rot-right">↻</div>
-      </div>
+      <div class="btn rotate-btn" id="rot-right">↻</div>
     </div>
 
-    <a-scene renderer="antialias: true; colorManagement: true;">
+    <!-- Tắt nút VR mặc định để không bị đè lên phím bấm -->
+    <a-scene renderer="antialias: true; colorManagement: true;" vr-mode-ui="enabled: false">
+      
       <a-assets>
         <video id="video-main" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
         <video id="video-landmark" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/2b0057/ffffff?text=GALAXY+ART">
+        <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/2b0057/ffffff?text=GALAXY">
         <img id="img-brick" src="https://via.placeholder.com/512x512/333/fff?text=BRICK">
         <img id="img-wood" src="https://via.placeholder.com/512x512/d7ccc8/333?text=WOOD">
       </a-assets>
 
-      <!-- HỆ THỐNG ÁNH SÁNG -->
-      <a-light id="ambient-light" type="ambient" intensity="0.1"></a-light>
-      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.2" distance="60"></a-light>
+      <!-- ÁNH SÁNG -->
+      <a-light id="ambient-light" type="ambient" intensity="0.05"></a-light>
+      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.05" distance="60"></a-light>
       
-      <!-- BẦU TRỜI GALAXY TÍM (Mặc định khi tắt đèn) -->
-      <a-sky id="bg-sky" color="#1a0033"></a-sky> 
-      <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="40" color="#050505"></a-plane>
-      <a-plane id="ceiling" position="0 6 0" rotation="90 0 0" width="20" height="40" material="transparent: true; opacity: 0.2" color="#4b0082"></a-plane>
+      <!-- BẦU TRỜI (Mặc định khi tắt đèn là màu tím Galaxy) -->
+      <a-sky id="bg-sky" color="#1a0033"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="30" color="#111"></a-plane>
+      <a-plane id="ceiling" position="0 6 0" rotation="90 0 0" width="16" height="30" color="#000"></a-plane>
 
+      <a-entity id="floor-timeline" position="0 0.05 0"></a-entity>
       <a-entity id="stars-container"></a-entity>
 
-      <!-- NỘI DUNG PHÒNG (Giữ nguyên cấu trúc của bạn) -->
+      <!-- GIỮ YÊN CÁC VÁCH TƯỜNG CỦA BẠN -->
       <a-box id="wall-kids" position="-7.95 3 12" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
       <a-entity id="zone-kids" position="-7.85 0 12" rotation="0 90 0"></a-entity>
       
@@ -88,7 +86,6 @@
       <a-entity id="zone-atsh" position="7.85 0 6" rotation="0 -90 0"></a-entity>
       <a-entity id="zone-thsh" position="7.85 0 -2" rotation="0 -90 0"></a-entity>
 
-      <!-- THE CORE -->
       <a-entity id="the-core" position="0 0 -12">
           <a-video src="#video-main" width="12" height="4.5" position="0 3 -2.5"></a-video>
           <a-entity position="0 0 6">
@@ -98,7 +95,6 @@
           </a-entity>
       </a-entity>
 
-      <!-- CAMERA RIG -->
       <a-entity id="rig" position="0 0 14" rotation="0 0 0">
         <a-entity camera look-controls="pointerLockEnabled: false" position="0 1.6 0">
             <a-cursor color="cyan" scale="0.5 0.5 0.5"></a-cursor>
@@ -108,110 +104,102 @@
     </a-scene>
 
     <script>
-      // Tạo Gallery tranh (Giữ nguyên logic cũ của bạn)
-      const createGallery = (id, type) => {
+      // Dữ liệu ảnh giữ nguyên
+      const urls_kids = ["","","","","","","","","",""];
+      const urls_kor  = ["","","","","","","","","",""];
+      const urls_rv   = ["","","","","","","","","",""];
+      const urls_atsh = ["","","","","","","","","",""];
+      const urls_thsh = ["","","","","","","","","",""];
+
+      const createGallery = (id, type, list) => {
         const parent = document.getElementById(id);
         for(let i=0; i<10; i++){
           let r = Math.floor(i/5); let c = i%5;
           let z = -2.2 + (c * 1.1); let y = 1.8 + (r * 1.8);
           let img = document.createElement('a-image');
-          img.setAttribute('src', 'https://via.placeholder.com/400x600/4b0082/ffffff?text=PIC');
+          img.setAttribute('src', list[i] || 'https://via.placeholder.com/400x600/4b0082/ffffff');
           img.setAttribute('width', '0.8'); img.setAttribute('height', '1.1');
           img.setAttribute('position', `${z} ${y} 0.05`);
           if(type==='galaxy') {
-              img.setAttribute('material', 'emissive: #ff00ff; emissiveIntensity: 0.4');
+              img.setAttribute('material', 'emissive: #fff; emissiveIntensity: 0.6');
               img.className = 'galaxy-art';
           }
           parent.appendChild(img);
         }
       };
-      ['zone-kids', 'zone-kor', 'zone-rv', 'zone-atsh', 'zone-thsh'].forEach(z => createGallery(z, z.includes('atsh')?'galaxy':'normal'));
 
-      // Tạo sao trời lấp lánh hơn
-      for(let i=0; i<200; i++){
+      createGallery('zone-kids', 'voice', urls_kids);
+      createGallery('zone-kor', 'rap', urls_kor);
+      createGallery('zone-rv', 'rap', urls_rv);
+      createGallery('zone-atsh', 'galaxy', urls_atsh);
+      createGallery('zone-thsh', 'galaxy', urls_thsh);
+
+      // Sao trời
+      for(let i=0; i<150; i++){
         let star = document.createElement('a-sphere');
-        star.setAttribute('radius', Math.random()*0.02);
-        star.setAttribute('position', `${(Math.random()-0.5)*30} ${4 + Math.random()*2} ${(Math.random()-0.5)*40}`);
-        star.setAttribute('material', `emissive: #fff; emissiveIntensity: ${Math.random()*10}; color: #fff`);
+        star.setAttribute('radius', '0.015');
+        star.setAttribute('position', `${-8 + Math.random()*16} 5.8 ${-15 + Math.random()*30}`);
+        star.setAttribute('material', `emissive: #fff; emissiveIntensity: 5`);
         document.getElementById('stars-container').appendChild(star);
       }
 
-      // LOGIC CHUYỂN ĐỔI CHẾ ĐỘ: SÁNG <-> GALAXY TÍM
+      // SỬA LẠI LOGIC MÀU GALAXY TÍM KHI TẮT ĐÈN
       const lightBtn = document.getElementById('light-toggle');
       let isBright = false;
 
       lightBtn.addEventListener('click', () => {
         isBright = !isBright;
-        // Ánh sáng
-        document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.2 : 0.1);
-        document.getElementById('gallery-light').setAttribute('intensity', isBright ? 2.0 : 0.2);
+        document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.5 : 0.05);
+        document.getElementById('gallery-light').setAttribute('intensity', isBright ? 3.0 : 0.05);
         
-        // Màu trời: Sáng xám hoặc Galaxy Tím
-        document.getElementById('bg-sky').setAttribute('color', isBright ? '#ffffff' : '#1a0033');
-        document.getElementById('ceiling').setAttribute('color', isBright ? '#fff' : '#4b0082');
-        
-        // Tranh phát sáng trong tối
+        // Khi Tắt đèn -> đổi thành màu tím Galaxy (#1a0033), Khi Sáng đèn -> trắng/xám (#eee)
+        document.getElementById('bg-sky').setAttribute('color', isBright ? '#eee' : '#1a0033');
+        document.getElementById('ceiling').setAttribute('color', isBright ? '#333' : '#000');
+
         document.querySelectorAll('.galaxy-art').forEach(el => {
-            el.setAttribute('material', 'emissiveIntensity', isBright ? 0 : 0.8);
+            el.setAttribute('material', 'emissiveIntensity', isBright ? 0 : 0.6);
         });
 
-        lightBtn.innerText = isBright ? "CHẾ ĐỘ: SÁNG ĐÈN" : "CHẾ ĐỘ: GALAXY TÍM";
-        lightBtn.style.background = isBright ? "gold" : "rgba(75, 0, 130, 0.8)";
+        lightBtn.innerText = isBright ? "CHẾ ĐỘ: SÁNG ĐÈN" : "CHẾ ĐỘ: TẮT ĐÈN";
+        lightBtn.style.background = isBright ? "gold" : "#4b0082";
         lightBtn.style.color = isBright ? "black" : "white";
       });
 
-      // HỆ THỐNG DI CHUYỂN MƯỢT MÀ CHO MOBILE
+      // HỆ THỐNG DI CHUYỂN (CẬP NHẬT ĐỂ XOAY THEO HƯỚNG NHÌN)
       const rig = document.getElementById('rig');
-      let moveDir = { up: false, down: false, left: false, right: false };
-      let rotateDir = { left: false, right: false };
-
-      const update = () => {
-        let rotation = rig.getAttribute('rotation');
-        let position = rig.getAttribute('position');
-        let angle = rotation.y * Math.PI / 180;
-
-        // Tính toán hướng di chuyển dựa trên hướng nhìn của camera
-        if (moveDir.up) {
-            position.x -= Math.sin(angle) * 0.15;
-            position.z -= Math.cos(angle) * 0.15;
+      let moveDir = null; let rotateDir = null;
+      
+      function update() {
+        if (moveDir) {
+          let pos = rig.getAttribute('position');
+          let rot = rig.getAttribute('rotation');
+          let angle = rot.y * Math.PI / 180;
+          
+          if (moveDir === 'up') { pos.x -= Math.sin(angle) * 0.15; pos.z -= Math.cos(angle) * 0.15; }
+          if (moveDir === 'down') { pos.x += Math.sin(angle) * 0.15; pos.z += Math.cos(angle) * 0.15; }
+          if (moveDir === 'left') { pos.x -= Math.cos(angle) * 0.15; pos.z += Math.sin(angle) * 0.15; }
+          if (moveDir === 'right') { pos.x += Math.cos(angle) * 0.15; pos.z -= Math.sin(angle) * 0.15; }
+          rig.setAttribute('position', pos);
         }
-        if (moveDir.down) {
-            position.x += Math.sin(angle) * 0.15;
-            position.z += Math.cos(angle) * 0.15;
+        if (rotateDir) {
+          let rot = rig.getAttribute('rotation');
+          if (rotateDir === 'left') rot.y += 2; if (rotateDir === 'right') rot.y -= 2;
+          rig.setAttribute('rotation', rot);
         }
-        if (moveDir.left) {
-            position.x -= Math.cos(angle) * 0.15;
-            position.z += Math.sin(angle) * 0.15;
-        }
-        if (moveDir.right) {
-            position.x += Math.cos(angle) * 0.15;
-            position.z -= Math.sin(angle) * 0.15;
-        }
-        
-        if (rotateDir.left) rotation.y += 2;
-        if (rotateDir.right) rotation.y -= 2;
-
-        rig.setAttribute('position', position);
-        rig.setAttribute('rotation', rotation);
         requestAnimationFrame(update);
-      };
+      }
       update();
 
-      // Gán sự kiện cho nút bấm (Hỗ trợ cả chuột và chạm)
-      const setupBtn = (id, type, direction) => {
+      const bind = (id, type, val) => {
         const el = document.getElementById(id);
-        const start = (e) => { e.preventDefault(); if(type==='move') moveDir[direction]=true; else rotateDir[direction]=true; };
-        const stop = () => { if(type==='move') moveDir[direction]=false; else rotateDir[direction]=false; };
-        
-        el.addEventListener('mousedown', start); el.addEventListener('touchstart', start);
-        window.addEventListener('mouseup', stop); window.addEventListener('touchend', stop);
+        const start = (e) => { e.preventDefault(); if(type==='move') moveDir=val; else rotateDir=val; };
+        const stop = (e) => { e.preventDefault(); if(type==='move') moveDir=null; else rotateDir=null; };
+        el.addEventListener('touchstart', start); el.addEventListener('touchend', stop);
+        el.addEventListener('mousedown', start); el.addEventListener('mouseup', stop);
       };
+      bind('up','move','up'); bind('down','move','down'); bind('left','move','left'); bind('right','move','right');
+      bind('rot-left','rotate','left'); bind('rot-right','rotate','right');
 
-      setupBtn('up','move','up'); setupBtn('down','move','down');
-      setupBtn('left','move','left'); setupBtn('right','move','right');
-      setupBtn('rot-left','rotate','left'); setupBtn('rot-right','rotate','right');
-
-      // Tự động chạy video khi click lần đầu
       window.addEventListener('click', () => { 
           document.querySelectorAll('video').forEach(v => v.play());
       }, {once: true});
