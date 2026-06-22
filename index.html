@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | THE MASTER PROJECT</title>
+    <title>CAPTAIN BOY | A LITTLE LOVE</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
@@ -14,7 +14,12 @@
       }
       .btn { width: 60px; height: 60px; background: white; border: none; border-radius: 15px; color: #333; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
       .rotate-btn { background: #111; color: gold; border-radius: 50%; }
-      #light-toggle { position: fixed; top: 20px; right: 20px; z-index: 10000; width: 170px; height: 50px; background: #9c27b0; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 5px 15px rgba(156, 39, 176, 0.5); }
+      #light-toggle { 
+        position: fixed; top: 20px; right: 20px; z-index: 10000; 
+        width: 200px; height: 50px; background: #4b0082; color: white; 
+        border: 2px solid gold; border-radius: 25px; font-weight: bold; cursor: pointer; 
+        font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
+      }
     </style>
   </head>
   <body>
@@ -33,61 +38,50 @@
     <a-scene renderer="antialias: true; colorManagement: true;">
       
       <a-assets>
-        <!-- VIDEO CHÍNH (Ở THE CORE) -->
         <video id="video-main" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        <!-- VIDEO LANDMARK (THAY CHO CHỮ TINH HA UNIVERSE) -->
         <video id="video-landmark" src="https://www.w3schools.com/html/mov_bbb.mp4" loop="true" crossorigin="anonymous" muted></video>
-        
         <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/000022/fff?text=GALAXY">
         <img id="img-brick" src="https://via.placeholder.com/512x512/333/fff?text=BRICK">
         <img id="img-wood" src="https://via.placeholder.com/512x512/d7ccc8/333?text=WOOD">
       </a-assets>
 
-      <!-- HỆ THỐNG ÁNH SÁNG -->
-      <a-light id="ambient-light" type="ambient" intensity="0.2"></a-light>
-      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.1" distance="60"></a-light>
-
-      <!-- PHÒNG DÀI (16x30) -->
-      <a-sky id="bg-sky" color="#050510"></a-sky>
+      <!-- HỆ THỐNG ÁNH SÁNG MẶC ĐỊNH CỰC THẤP -->
+      <a-light id="ambient-light" type="ambient" intensity="0.05"></a-light>
+      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.05" distance="60"></a-light>
+      
+      <!-- PHÒNG (16x30) -->
+      <a-sky id="bg-sky" color="#000005"></a-sky>
       <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="30" color="#111"></a-plane>
       <a-plane id="ceiling" position="0 6 0" rotation="90 0 0" width="16" height="30" color="#000"></a-plane>
 
+      <!-- SÀN TIMELINE -->
       <a-entity id="floor-timeline" position="0 0.05 0"></a-entity>
       <a-entity id="stars-container"></a-entity>
 
       <!-- ========================================== -->
       <!-- VÁCH TRÁI (KIDS -> KOR -> RV) -->
       <!-- ========================================== -->
-      <a-box position="-7.95 3 12" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
+      <a-box id="wall-kids" position="-7.95 3 12" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
       <a-entity id="zone-kids" position="-7.85 0 12" rotation="0 90 0"></a-entity>
       
-      <a-box position="-7.95 3 6" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick"></a-box>
+      <a-box id="wall-kor" position="-7.95 3 6" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick"></a-box>
       <a-entity id="zone-kor" position="-7.85 0 6" rotation="0 90 0"></a-entity>
 
-      <a-box position="-7.95 3 0" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick" color="#222"></a-box>
+      <a-box id="wall-rv" position="-7.95 3 0" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick" color="#222"></a-box>
       <a-entity id="zone-rv" position="-7.85 0 0" rotation="0 90 0"></a-entity>
 
       <!-- ========================================== -->
       <!-- VÁCH PHẢI (ATSH -> THSH) -->
       <!-- ========================================== -->
-      <a-box position="7.95 3 6" rotation="0 -90 0" width="10" height="6" depth="0.1" src="#img-galaxy"></a-box>
+      <a-box id="wall-galaxy" position="7.95 3 2" rotation="0 -90 0" width="16" height="6" depth="0.1" src="#img-galaxy" material="repeat: 2 1"></a-box>
       <a-entity id="zone-atsh" position="7.85 0 6" rotation="0 -90 0"></a-entity>
-
-      <a-box position="7.95 3 -4" rotation="0 -90 0" width="10" height="6" depth="0.1" src="#img-galaxy" color="#4b0082"></a-box>
-      <a-entity id="zone-thsh" position="7.85 0 -4" rotation="0 -90 0"></a-entity>
+      <a-entity id="zone-thsh" position="7.85 0 -2" rotation="0 -90 0"></a-entity>
 
       <!-- ========================================== -->
-      <!-- THE CORE (CUỐI PHÒNG) -->
+      <!-- THE CORE & LANDMARK -->
       <!-- ========================================== -->
       <a-entity id="the-core" position="0 0 -12">
-          <!-- Màn hình LED chính -->
-          <a-entity position="0 3 -2.5">
-            <a-video src="#video-main" width="6" height="3.5"></a-video>
-            <a-video src="#video-main" width="4" height="3.5" position="-4.8 0 0.8" rotation="0 30 0"></a-video>
-            <a-video src="#video-main" width="4" height="3.5" position="4.8 0 0.8" rotation="0 -30 0"></a-video>
-          </a-entity>
-
-          <!-- VIDEO LANDMARK (THAY CHO TINH HA UNIVERSE) -->
+          <a-video src="#video-main" width="12" height="4.5" position="0 3 -2.5"></a-video>
           <a-entity position="0 0 6">
               <a-plane width="7" height="4.5" color="#111" position="0 2.2 -0.2"></a-plane>
               <a-video src="#video-landmark" width="6.5" height="3.8" position="0 2.2 0"></a-video>
@@ -95,7 +89,6 @@
           </a-entity>
       </a-entity>
 
-      <!-- CAMERA -->
       <a-entity id="rig" position="0 0 14">
         <a-entity camera look-controls position="0 1.6 0"><a-cursor color="cyan"></a-cursor></a-entity>
       </a-entity>
@@ -104,16 +97,15 @@
 
     <script>
       // ==========================================
-      // 1. CHỖ THAY LINK ẢNH CỦA BẠN TẠI ĐÂY
+      // THAY LINK ẢNH CỦA BẠN VÀO ĐÂY
       // ==========================================
-      const urls_kids = ["https://via.placeholder.com/400x600?text=KIDS_1", "https://via.placeholder.com/400x600?text=KIDS_2", "https://via.placeholder.com/400x600?text=KIDS_3", "https://via.placeholder.com/400x600?text=KIDS_4", "https://via.placeholder.com/400x600?text=KIDS_5", "https://via.placeholder.com/400x600?text=KIDS_6", "https://via.placeholder.com/400x600?text=KIDS_7", "https://via.placeholder.com/400x600?text=KIDS_8", "https://via.placeholder.com/400x600?text=KIDS_9", "https://via.placeholder.com/400x600?text=KIDS_10"];
-      const urls_kor  = ["https://via.placeholder.com/400x600?text=KOR_1",  "https://via.placeholder.com/400x600?text=KOR_2",  "https://via.placeholder.com/400x600?text=KOR_3",  "https://via.placeholder.com/400x600?text=KOR_4",  "https://via.placeholder.com/400x600?text=KOR_5",  "https://via.placeholder.com/400x600?text=KOR_6",  "https://via.placeholder.com/400x600?text=KOR_7",  "https://via.placeholder.com/400x600?text=KOR_8",  "https://via.placeholder.com/400x600?text=KOR_9",  "https://via.placeholder.com/400x600?text=KOR_10"];
-      const urls_rv   = ["https://via.placeholder.com/400x600?text=RV_1",   "https://via.placeholder.com/400x600?text=RV_2",   "https://via.placeholder.com/400x600?text=RV_3",   "https://via.placeholder.com/400x600?text=RV_4",   "https://via.placeholder.com/400x600?text=RV_5",   "https://via.placeholder.com/400x600?text=RV_6",   "https://via.placeholder.com/400x600?text=RV_7",   "https://via.placeholder.com/400x600?text=RV_8",   "https://via.placeholder.com/400x600?text=RV_9",   "https://via.placeholder.com/400x600?text=RV_10"];
-      const urls_atsh = ["https://via.placeholder.com/400x600?text=ATSH_1", "https://via.placeholder.com/400x600?text=ATSH_2", "https://via.placeholder.com/400x600?text=ATSH_3", "https://via.placeholder.com/400x600?text=ATSH_4", "https://via.placeholder.com/400x600?text=ATSH_5", "https://via.placeholder.com/400x600?text=ATSH_6", "https://via.placeholder.com/400x600?text=ATSH_7", "https://via.placeholder.com/400x600?text=ATSH_8", "https://via.placeholder.com/400x600?text=ATSH_9", "https://via.placeholder.com/400x600?text=ATSH_10"];
-      const urls_thsh = ["https://via.placeholder.com/400x600?text=THSH_1", "https://via.placeholder.com/400x600?text=THSH_2", "https://via.placeholder.com/400x600?text=THSH_3", "https://via.placeholder.com/400x600?text=THSH_4", "https://via.placeholder.com/400x600?text=THSH_5", "https://via.placeholder.com/400x600?text=THSH_6", "https://via.placeholder.com/400x600?text=THSH_7", "https://via.placeholder.com/400x600?text=THSH_8", "https://via.placeholder.com/400x600?text=THSH_9", "https://via.placeholder.com/400x600?text=THSH_10"];
+      const urls_kids = ["","","","","","","","","",""];
+      const urls_kor  = ["","","","","","","","","",""];
+      const urls_rv   = ["","","","","","","","","",""];
+      const urls_atsh = ["","","","","","","","","",""];
+      const urls_thsh = ["","","","","","","","","",""];
 
-      // 2. HÀM TẠO 10 ẢNH/KHU TỪ DANH SÁCH LINK
-      const createGallery = (id, type, urlList) => {
+      const createGallery = (id, type, list) => {
         const parent = document.getElementById(id);
         for(let i=0; i<10; i++){
           let r = Math.floor(i/5); let c = i%5;
@@ -124,11 +116,13 @@
             parent.appendChild(wire);
           }
           let img = document.createElement('a-image');
-          img.setAttribute('src', urlList[i] || 'https://via.placeholder.com/400x600');
+          img.setAttribute('src', list[i] || 'https://via.placeholder.com/400x600');
           img.setAttribute('width', '0.8'); img.setAttribute('height', '1.1');
           img.setAttribute('position', `${z} ${y} 0.05`);
-          if(type === 'galaxy') img.setAttribute('material', 'emissive: #fff; emissiveIntensity: 0.3');
-          img.className = (type === 'galaxy') ? 'galaxy-art' : '';
+          if(type==='galaxy') {
+              img.setAttribute('material', 'emissive: #fff; emissiveIntensity: 0.6');
+              img.className = 'galaxy-art';
+          }
           parent.appendChild(img);
         }
       };
@@ -139,48 +133,51 @@
       createGallery('zone-atsh', 'galaxy', urls_atsh);
       createGallery('zone-thsh', 'galaxy', urls_thsh);
 
-      // 3. SÀN 5 CỘT MỐC (TIMELINE)
+      // SÀN 5 CỘT MỐC
       const timelineData = [
-        {year: "2013", pos: 12, label: "VOICE KIDS"},
-        {year: "2020", pos: 6,  label: "KING OF RAP"},
-        {year: "2021", pos: 0,  label: "RAP VIET"},
-        {year: "2023", pos: -6, label: "ATSH"},
-        {year: "2024", pos: -12, label: "THSH"}
+        {y: "2013", p: 12, l: "VOICE KIDS"}, {y: "2020", p: 6, l: "KING OF RAP"},
+        {y: "2023", p: 0, l: "RAP VIET"}, {y: "2024", p: -6, l: "Anh Trai Say Hi"}, {y: "2026", p: -12, l: "Tinh Hà Say Hi"}
       ];
-      const floor = document.getElementById('floor-timeline');
       timelineData.forEach(item => {
         let text = document.createElement('a-text');
-        text.setAttribute('value', `${item.year}\n${item.label}`);
-        text.setAttribute('position', `-0.6 0.02 ${item.pos}`);
+        text.setAttribute('value', `${item.y}\n${item.l}`);
+        text.setAttribute('position', `-0.6 0.02 ${item.p}`);
         text.setAttribute('rotation', '-90 0 0'); text.setAttribute('width', '5'); text.setAttribute('color', 'gold');
-        floor.appendChild(text);
+        document.getElementById('floor-timeline').appendChild(text);
       });
 
-      // 4. SAO GALAXY
-      const stars = document.getElementById('stars-container');
-      for(let i=0; i<100; i++){
+      // SAO TRỜI (Số lượng lớn cho nghệ kkk)
+      for(let i=0; i<150; i++){
         let star = document.createElement('a-sphere');
         star.setAttribute('radius', '0.015');
         star.setAttribute('position', `${-8 + Math.random()*16} 5.8 ${-15 + Math.random()*30}`);
-        star.setAttribute('material', `emissive: #fff; emissiveIntensity: ${Math.random()*3}`);
-        stars.appendChild(star);
+        star.setAttribute('material', `emissive: #fff; emissiveIntensity: ${Math.random()*5}`);
+        document.getElementById('stars-container').appendChild(star);
       }
 
-      // 5. NÚT CHUYỂN ĐỔI CHẾ ĐỘ
+      // LOGIC CHUYỂN ĐỔI CHẾ ĐỘ (FLASH-ON EFFECT)
       const lightBtn = document.getElementById('light-toggle');
       let isBright = false;
+
       lightBtn.addEventListener('click', () => {
         isBright = !isBright;
-        document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.5 : 0.2);
-        document.getElementById('gallery-light').setAttribute('intensity', isBright ? 2.5 : 0.1);
-        document.getElementById('bg-sky').setAttribute('color', isBright ? '#555' : '#050510');
+        // Chỉnh ánh sáng vụt sáng
+        document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.5 : 0.05);
+        document.getElementById('gallery-light').setAttribute('intensity', isBright ? 3.0 : 0.05);
+        // Chỉnh màu trời
+        document.getElementById('bg-sky').setAttribute('color', isBright ? '#555' : '#000005');
         document.getElementById('ceiling').setAttribute('color', isBright ? '#333' : '#000');
-        document.querySelectorAll('.galaxy-art').forEach(el => el.setAttribute('material', 'emissiveIntensity', isBright ? 0 : 0.4));
-        lightBtn.innerText = isBright ? "CHẾ ĐỘ: GALLERY (SÁNG)" : "CHẾ ĐỘ: GALAXY (ART)";
-        lightBtn.style.background = isBright ? "gold" : "#9c27b0";
+        // Tắt/Bật phát sáng tranh Galaxy
+        document.querySelectorAll('.galaxy-art').forEach(el => {
+            el.setAttribute('material', 'emissiveIntensity', isBright ? 0 : 0.6);
+        });
+
+        lightBtn.innerText = isBright ? "CHẾ ĐỘ: SÁNG ĐÈN" : "CHẾ ĐỘ: TẮT ĐÈN";
+        lightBtn.style.background = isBright ? "gold" : "#4b0082";
+        lightBtn.style.color = isBright ? "black" : "white";
       });
 
-      // 6. LOGIC DI CHUYỂN
+      // DI CHUYỂN
       const rig = document.getElementById('rig');
       let moveDir = null; let rotateDir = null;
       function update() {
@@ -209,8 +206,7 @@
       bind('up','move','up'); bind('down','move','down'); bind('left','move','left'); bind('right','move','right');
       bind('rot-left','rotate','left'); bind('rot-right','rotate','right');
       window.addEventListener('click', () => { 
-        document.querySelector('#video-main').play(); 
-        document.querySelector('#video-landmark').play(); 
+          document.querySelector('#video-main').play(); document.querySelector('#video-landmark').play(); 
       }, {once: true});
     </script>
   </body>
