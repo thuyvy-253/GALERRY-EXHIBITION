@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CAPTAIN BOY | THE MASTER JOURNEY EXHIBITION</title>
+    <title>CAPTAIN BOY | THE DUAL-UNIVERSE JOURNEY</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
@@ -12,14 +12,14 @@
         z-index: 10000; display: flex; align-items: flex-end; gap: 20px;
         background: rgba(0,0,0,0.7); padding: 20px; border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid cyan;
       }
-      .btn { width: 60px; height: 60px; background: white; border: none; border-radius: 15px; color: #333; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-      .rotate-btn { background: #111; color: cyan; border-radius: 50%; }
-      #light-toggle { position: fixed; top: 20px; right: 20px; z-index: 10000; width: 150px; height: 50px; background: gold; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; }
+      .btn { width: 60px; height: 60px; background: white; border: none; border-radius: 15px; color: #333; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+      .rotate-btn { background: #111; color: gold; border-radius: 50%; }
+      #light-toggle { position: fixed; top: 20px; right: 20px; z-index: 10000; width: 170px; height: 50px; background: #9c27b0; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 5px 15px rgba(156, 39, 176, 0.5); }
     </style>
   </head>
   <body>
 
-    <button id="light-toggle">GALLERY MODE: OFF</button>
+    <button id="light-toggle">CHẾ ĐỘ: GALAXY (ART)</button>
 
     <div id="nav-ui">
       <div class="btn rotate-btn" id="rot-left">↺</div>
@@ -37,91 +37,75 @@
         <img id="img-galaxy" src="https://via.placeholder.com/1024x1024/000022/fff?text=GALAXY">
         <img id="img-brick" src="https://via.placeholder.com/512x512/333/fff?text=BRICK">
         <img id="img-wood" src="https://via.placeholder.com/512x512/d7ccc8/333?text=WOOD">
-        <img id="img-art" src="https://via.placeholder.com/400x600?text=ART+PIECE">
+        <img id="img-art" src="https://via.placeholder.com/400x600?text=ART">
       </a-assets>
 
-      <!-- ÁNH SÁNG PHÂN VÙNG -->
-      <a-light id="ambient-light" type="ambient" intensity="0.3"></a-light>
-      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0" distance="40"></a-light>
-      <a-light type="point" position="-7 4 9" color="gold" intensity="0.7"></a-light> <!-- Kids Area -->
-      <a-light type="point" position="-7 4 2" color="#ff0000" intensity="0.8"></a-light> <!-- Rap Area -->
-      <a-light type="point" position="7 4 0" color="#e91e63" intensity="0.9"></a-light> <!-- Galaxy Area -->
+      <!-- HỆ THỐNG ÁNH SÁNG ĐA NĂNG -->
+      <a-light id="ambient-light" type="ambient" intensity="0.2"></a-light>
+      <a-light id="gallery-light" type="point" position="0 5 0" intensity="0.1" distance="60" decay="1"></a-light>
+      
+      <!-- Đèn theo từng Chương -->
+      <a-light id="light-kids" type="point" position="-7 4 12" color="gold" intensity="0.6"></a-light>
+      <a-light id="light-rap" type="point" position="-7 4 3" color="#ff5252" intensity="0.7"></a-light>
+      <a-light id="light-atsh" type="point" position="7 4 6" color="#9c27b0" intensity="0.8"></a-light>
 
-      <!-- PHÒNG (16x24 - Dài hơn để làm hành trình) -->
-      <a-sky color="#050510"></a-sky>
-      <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="24" color="#111"></a-plane>
-      <a-plane position="0 6 0" rotation="90 0 0" width="16" height="24" color="#000"></a-plane>
+      <!-- PHÒNG DÀI (16x30) -->
+      <a-sky id="bg-sky" color="#050510"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="16" height="30" color="#111"></a-plane>
+      <a-plane id="ceiling" position="0 6 0" rotation="90 0 0" width="16" height="30" color="#000"></a-plane>
 
-      <!-- SÀN TIMELINE 2013 - 2024 -->
       <a-entity id="floor-timeline" position="0 0.05 0"></a-entity>
+      <a-entity id="stars-container"></a-entity>
 
       <!-- ========================================== -->
-      <!-- CHAPTER 1: VOICE KIDS (VÁCH TRÁI SAU) -->
+      <!-- VÁCH TRÁI (3 CHƯƠNG) -->
       <!-- ========================================== -->
-      <a-box position="-7.95 3 9" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
-      <a-entity id="zone-kids" position="-7.85 0 9" rotation="0 90 0"></a-entity>
-      <!-- Bục Micro Voice Kids -->
-      <a-entity position="-6 0 10">
-          <a-cylinder radius="0.5" height="0.1" color="#333"></a-cylinder>
-          <a-entity position="0 1.2 0">
-             <a-cylinder radius="0.02" height="1.2" color="#ccc"></a-cylinder>
-             <a-sphere radius="0.07" position="0 0.6 0" color="#555"></a-sphere>
+      <!-- Khu 1: Voice Kids -->
+      <a-box position="-7.95 3 12" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-wood"></a-box>
+      <a-entity id="zone-kids" position="-7.85 0 12" rotation="0 90 0"></a-entity>
+      <a-entity position="-6.5 0 13.5">
+          <a-cylinder radius="0.4" height="0.1" color="#333"></a-cylinder>
+          <a-entity position="0 1.2 0"><a-cylinder radius="0.02" height="1.2" color="#ccc"></a-cylinder><a-sphere radius="0.07" position="0 0.6 0" color="#555"></a-sphere></a-entity>
+      </a-entity>
+
+      <!-- Khu 2: King of Rap -->
+      <a-box position="-7.95 3 6" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick"></a-box>
+      <a-entity id="zone-kor" position="-7.85 0 6" rotation="0 90 0"></a-entity>
+
+      <!-- Khu 3: Rap Viet -->
+      <a-box position="-7.95 3 0" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick" color="#222"></a-box>
+      <a-entity id="zone-rv" position="-7.85 0 0" rotation="0 90 0"></a-entity>
+
+      <!-- ========================================== -->
+      <!-- VÁCH PHẢI (2 CHƯƠNG GALAXY) -->
+      <!-- ========================================== -->
+      <!-- Khu 4: Anh Trai Say Hi -->
+      <a-box position="7.95 3 6" rotation="0 -90 0" width="10" height="6" depth="0.1" src="#img-galaxy"></a-box>
+      <a-entity id="zone-atsh" position="7.85 0 6" rotation="0 -90 0"></a-entity>
+
+      <!-- Khu 5: Tinh Hà Say Hi -->
+      <a-box position="7.95 3 -4" rotation="0 -90 0" width="10" height="6" depth="0.1" src="#img-galaxy" color="#4b0082"></a-box>
+      <a-entity id="zone-thsh" position="7.85 0 -4" rotation="0 -90 0"></a-entity>
+
+      <!-- ========================================== -->
+      <!-- TRÁI TIM TRIỂN LÃM (THE CORE) -->
+      <!-- ========================================== -->
+      <a-entity id="the-core" position="0 0 -12">
+          <a-entity position="0 3 -2.5">
+            <a-video src="#asset-vcr" width="6" height="3.5"></a-video>
+            <a-video src="#asset-vcr" width="4" height="3.5" position="-4.8 0 0.8" rotation="0 30 0"></a-video>
+            <a-video src="#asset-vcr" width="4" height="3.5" position="4.8 0 0.8" rotation="0 -30 0"></a-video>
           </a-entity>
-          <a-text value="VOICE KIDS 2013" position="0 2 0" align="center" width="4" color="gold"></a-text>
-      </a-entity>
-
-      <!-- ========================================== -->
-      <!-- CHAPTER 2: RAP ERA (VÁCH TRÁI TRƯỚC) -->
-      <!-- ========================================== -->
-      <a-box position="-7.95 3 3" rotation="0 90 0" width="6" height="6" depth="0.1" src="#img-brick"></a-box>
-      <a-entity id="zone-rap" position="-7.85 0 3" rotation="0 90 0"></a-entity>
-      <!-- Graffiti Text -->
-      <a-text value="KEO LI" position="-7.8 4.5 4.5" rotation="0 90 0" color="#ff0000" width="8"></a-text>
-      <a-text value="RAP VIET" position="-7.8 4.8 2" rotation="0 90 0" color="cyan" width="6"></a-text>
-
-      <!-- ========================================== -->
-      <!-- CHAPTER 3: TINH HÀ (VÁCH PHẢI FULL) -->
-      <!-- ========================================== -->
-      <a-box position="7.95 3 0" rotation="0 -90 0" width="24" height="6" depth="0.1" src="#img-galaxy" material="repeat: 2 1"></a-box>
-      <a-entity id="zone-galaxy" position="7.85 0 0" rotation="0 -90 0"></a-entity>
-
-      <!-- ========================================== -->
-      <!-- THE CORE: LED & AUDIO STATION (VÁCH SAU) -->
-      <!-- ========================================== -->
-      <a-box position="0 3 -11.9" width="16" height="6" depth="0.1" color="#111"></a-box>
-      <a-entity position="0 3 -11.7">
-          <a-video src="#asset-vcr" width="7" height="4" position="0 0 0"></a-video>
-          <a-video src="#asset-vcr" width="5" height="4" position="-6 0 1.5" rotation="0 40 0"></a-video>
-          <a-video src="#asset-vcr" width="5" height="4" position="6 0 1.5" rotation="0 -40 0"></a-video>
-          <!-- Audio Station -->
-          <a-box position="0 -2.5 2.5" width="10" height="0.1" depth="1.2" color="#333">
-              <a-cylinder radius="0.3" height="0.02" color="#111" position="-3 0.1 0"></a-cylinder> <!-- Vinyl 1 -->
-              <a-cylinder radius="0.3" height="0.02" color="#111" position="3 0.1 0"></a-cylinder> <!-- Vinyl 2 -->
-          </a-box>
-          <a-text value="AUDIO STATION" position="0 -2 2.6" align="center" width="8" color="gold"></a-text>
-      </a-entity>
-
-      <!-- ========================================== -->
-      <!-- LANDMARK: BACKDROP 3D & FAN VOICE -->
-      <!-- ========================================== -->
-      <!-- Backdrop 3D Layered -->
-      <a-entity position="0 0 11">
-          <a-plane width="8" height="5" position="0 2.5 -0.5" color="#000" material="metalness: 0.9"></a-plane>
-          <a-text value="TINH HA" align="center" width="15" position="0 3.5 0" color="cyan" material="emissive: cyan"></a-text>
-          <a-box width="1.2" height="0.6" depth="1" color="#8b0000" position="0 0.3 0"></a-box> <!-- Ghế vinh quang -->
-      </a-entity>
-      <!-- Tường Lưu Bút (Fan's Voice) -->
-      <a-entity position="7.8 3 9" rotation="0 -90 0">
-          <a-plane width="3" height="4" color="#fff" opacity="0.8"></a-plane>
-          <a-text value="FAN'S VOICE" align="center" width="6" color="#333" position="0 1.8 0.05"></a-text>
-          <!-- Random Notes -->
-          <a-plane width="0.2" height="0.2" color="yellow" position="-0.5 0 0.1"></a-plane>
-          <a-plane width="0.2" height="0.2" color="pink" position="0.5 0.5 0.1"></a-plane>
-          <a-plane width="0.2" height="0.2" color="cyan" position="0 -0.5 0.1"></a-plane>
+          <!-- Landmark 3D Backdrop -->
+          <a-entity position="0 0 6">
+              <a-plane width="7" height="4.5" color="#111" material="metalness: 0.9; roughness: 0.1" position="0 2.2 -0.2"></a-plane>
+              <a-text value="TINH HA UNIVERSE" align="center" width="12" color="cyan" position="0 3.5 0" material="emissive: cyan"></a-text>
+              <a-box width="1.2" height="0.6" depth="1.2" color="#8b0000" position="0 0.3 0"></a-box>
+          </a-entity>
       </a-entity>
 
       <!-- CAMERA -->
-      <a-entity id="rig" position="0 0 6">
+      <a-entity id="rig" position="0 0 14">
         <a-entity camera look-controls position="0 1.6 0"><a-cursor color="cyan"></a-cursor></a-entity>
       </a-entity>
 
@@ -129,69 +113,56 @@
 
     <script>
       const rig = document.getElementById('rig');
-      const timelineFloor = document.getElementById('floor-timeline');
-      const zoneKids = document.getElementById('zone-kids');
-      const zoneRap = document.getElementById('zone-rap');
-      const zoneGalaxy = document.getElementById('zone-galaxy');
+      const stars = document.getElementById('stars-container');
 
-      // 1. SÀN TIMELINE
-      const milestones = [
-          {y: "2013", p: 10}, {y: "2017", p: 7}, {y: "2020", p: 4}, 
-          {y: "2022", p: 1}, {y: "2024", p: -2}
-      ];
-      milestones.forEach(m => {
-          let line = document.createElement('a-plane');
-          line.setAttribute('width', '0.1'); line.setAttribute('height', '3');
-          line.setAttribute('position', `0 0 ${m.p - 1.5}`); line.setAttribute('rotation', '-90 0 0');
-          line.setAttribute('color', 'gold');
-          let text = document.createElement('a-text');
-          text.setAttribute('value', m.y); text.setAttribute('position', `-0.6 0 ${m.p}`);
-          text.setAttribute('rotation', '-90 0 0'); text.setAttribute('width', '5');
-          timelineFloor.appendChild(line); timelineFloor.appendChild(text);
-      });
-
-      // 2. CHAPTER 1 (10 ẢNH - GRID)
-      for(let i=0; i<10; i++){
+      // 1. GRID 10 ẢNH/KHU
+      const createGrid = (id, type) => {
+        const parent = document.getElementById(id);
+        for(let i=0; i<10; i++){
           let r = Math.floor(i/5); let c = i%5;
-          let z = -2 + (c * 1); let y = 1.8 + (r * 1.8);
-          let wire = document.createElement('a-entity');
-          wire.setAttribute('line', {start: `${z} 6 0`, end: `${z} ${y+0.6} 0`, color: '#5d4037'});
+          let z = -2.2 + (c * 1.1); let y = 1.8 + (r * 1.8);
+          if(type==='voice'){
+            let wire = document.createElement('a-entity');
+            wire.setAttribute('line', {start: `${z} 6 0`, end: `${z} ${y+0.6} 0`, color: '#5d4037'});
+            parent.appendChild(wire);
+          }
           let img = document.createElement('a-image');
-          img.setAttribute('src', '#img-art'); img.setAttribute('width', '0.7'); img.setAttribute('height', '1');
+          img.setAttribute('src', '#img-art'); img.setAttribute('width', '0.8'); img.setAttribute('height', '1.1');
           img.setAttribute('position', `${z} ${y} 0.05`);
-          zoneKids.appendChild(wire); zoneKids.appendChild(img);
+          img.className = (type === 'galaxy') ? 'galaxy-art' : '';
+          parent.appendChild(img);
+        }
+      };
+      createGrid('zone-kids', 'voice'); createGrid('zone-kor', 'rap'); createGrid('zone-rv', 'rap');
+      createGrid('zone-atsh', 'galaxy'); createGrid('zone-thsh', 'galaxy');
+
+      // 2. TẠO SAO GALAXY
+      for(let i=0; i<100; i++){
+        let star = document.createElement('a-sphere');
+        star.setAttribute('radius', '0.015');
+        star.setAttribute('position', `${-8 + Math.random()*16} 5.8 ${-15 + Math.random()*30}`);
+        star.setAttribute('material', `emissive: #fff; emissiveIntensity: ${Math.random()*3}`);
+        stars.appendChild(star);
       }
 
-      // 3. CHAPTER 2 (10 ẢNH - GRID)
-      for(let i=0; i<10; i++){
-          let r = Math.floor(i/5); let c = i%5;
-          let z = -2 + (c * 1); let y = 1.8 + (r * 1.8);
-          let img = document.createElement('a-image');
-          img.setAttribute('src', '#img-art'); img.setAttribute('width', '0.8'); img.setAttribute('height', '0.8');
-          img.setAttribute('position', `${z} ${y} 0.05`);
-          img.setAttribute('rotation', '0 0 5');
-          zoneRap.appendChild(img);
-      }
-
-      // 4. CHAPTER 3 (10 ẢNH - GRID GALAXY)
-      for(let i=0; i<10; i++){
-          let r = Math.floor(i/5); let c = i%5;
-          let z = -5 + (c * 2.5); let y = 1.8 + (r * 2.5);
-          let img = document.createElement('a-image');
-          img.setAttribute('src', '#img-art'); img.setAttribute('width', '1.6'); img.setAttribute('height', '2.2');
-          img.setAttribute('position', `${z} ${y} 0.05`);
-          img.setAttribute('material', 'emissive: #fff; emissiveIntensity: 0.3');
-          zoneGalaxy.appendChild(img);
-      }
-
-      // NÚT BẬT ĐÈN
+      // 3. LOGIC NÚT BẤT ĐÈN (CHUYỂN ĐỔI CHẾ ĐỘ)
       const lightBtn = document.getElementById('light-toggle');
-      let bright = false;
+      let isBright = false;
       lightBtn.addEventListener('click', () => {
-        bright = !bright;
-        document.getElementById('ambient-light').setAttribute('intensity', bright ? 0.9 : 0.3);
-        document.getElementById('gallery-light').setAttribute('intensity', bright ? 1.5 : 0);
-        lightBtn.innerText = bright ? "GALLERY MODE: ON" : "GALLERY MODE: OFF";
+        isBright = !isBright;
+        // Chỉnh ánh sáng
+        document.getElementById('ambient-light').setAttribute('intensity', isBright ? 1.5 : 0.2);
+        document.getElementById('gallery-light').setAttribute('intensity', isBright ? 2.5 : 0.1);
+        // Chỉnh màu trời & trần
+        document.getElementById('bg-sky').setAttribute('color', isBright ? '#555' : '#050510');
+        document.getElementById('ceiling').setAttribute('color', isBright ? '#333' : '#000');
+        // Chỉnh độ phát sáng của tranh Galaxy
+        document.querySelectorAll('.galaxy-art').forEach(el => {
+            el.setAttribute('material', 'emissiveIntensity', isBright ? 0 : 0.4);
+        });
+        
+        lightBtn.innerText = isBright ? "CHẾ ĐỘ: GALLERY (SÁNG)" : "CHẾ ĐỘ: GALAXY (ART)";
+        lightBtn.style.background = isBright ? "gold" : "#9c27b0";
       });
 
       // LOGIC DI CHUYỂN
